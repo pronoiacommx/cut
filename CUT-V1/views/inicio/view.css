@@ -1,7 +1,7 @@
 /* Estilos generales de .cardApp */
 .cardApp {
   background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid rgba(255, 255, 255, 0);
   border-radius: 18px;
   box-shadow: var(--shadow);
   overflow: hidden;
@@ -20,7 +20,7 @@
 /* Estilos específicos para el carrusel HERO (#heroCarousel) - Full-width y alto */
 #heroCarousel {
   width: 100vw; /* Ancho completo de la pantalla */
-  height: 85vh; /* 85% del alto de la pantalla (ajusta a 80vh o 90vh si prefieres) */
+  height: 50vh; /* 85% del alto de la pantalla (ajusta a 80vh o 90vh si prefieres) */
 }
 #heroCarousel .carousel-inner {
   height: 100%;
@@ -74,43 +74,82 @@
 }
 
 /* Estilos para .videoCard */
-.videoCard {
-  flex: 0 0 auto;
-  width: clamp(190px, 42vw, 260px);
-  scroll-snap-align: start;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.09);
-  background: rgba(255,255,255,.03);
+ .videoCard {
+  display: block;
   text-decoration: none;
-  color: var(--text);
-  transition: transform .15s ease, border-color .15s ease;
+  color: inherit;
+}
+
+.thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
 }
 .videoCard:hover {
   transform: translateY(-2px);
   border-color: rgba(110,168,254,.35);
   color: var(--text);
+}.videoCard:hover .videoTitle {
+  text-decoration: underline;
+
 }
-.thumb {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-  display: block;
-}
+
+/* Contenedor de texto */
 .videoMeta {
-  padding: 10px 10px 12px;
+  margin-top: 8px;
 }
+
+/* Título */
 .videoTitle {
-  font-size: .95rem;
-  line-height: 1.2;
-  margin: 0 0 6px;
+  font-weight: 600;          /* negritas tipo YouTube */
+  font-size: 20px;           /* desktop */
+  line-height: 1.3;
+  margin: 0 0 4px 0;
+  color: #0f0f0f;
+
+  /* Limitar a 2 líneas como YouTube */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Subtítulo */
 .videoSub {
-  color: var(--muted);
-  font-size: .82rem;
+  font-size: 15px;
+  color: #606060;            /* gris YouTube */
   margin: 0;
+
+  /* Limitar a 1 línea */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+.verTodo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.verTodo .icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* 📱 MÓVIL */
+@media (max-width: 768px) {
+  .videoTitle {
+    font-size: 12px;   /* móvil */
+  }
+
+  .videoSub {
+    font-size: 10px;
+  }
+}
+
+

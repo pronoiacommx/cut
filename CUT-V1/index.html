@@ -15,117 +15,61 @@
 </head>
 
 <body>
-  <!-- <header class="appHeader">
-    <div class="container py-3">
-      <div class="d-flex align-items-center gap-2">
-        <div class="logo"></div>
-        <div>
-          <div class="fw-black fw-bold" style="font-size:14px;">Control Escolar</div>
-          <div class="sub">App móvil • Bootstrap 5</div>
-        </div>
-      </div>
-    </div>
-  </header> -->
-  <!-- Carrusel ajustado para full-width -->
-  <div class="cardApp mb-3" style="margin-left: -15px; margin-right: -15px; width: calc(100% + 30px);">
-    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" style="width: 100vw; height: 85vh;">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
-      </div>
-
-      <div class="carousel-inner" style="height: 100%;">
-        <div class="carousel-item active" style="height: 100%;">
-          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=60" class="d-block w-100" alt="Slide 1" style="height: 100%; object-fit: cover;">
-          <div class="carousel-caption text-start">
-            <h5 class="mb-1">Bienvenido1</h5>
-            <p class="mb-0">Contenido destacado de la semana</p>
-          </div>
-        </div>
-
-        <div class="carousel-item" style="height: 100%;">
-          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=60" class="d-block w-100" alt="Slide 2" style="height: 100%; object-fit: cover;">
-          <div class="carousel-caption text-start">
-            <h5 class="mb-1">Tutoriales</h5>
-            <p class="mb-0">Aprende con videos cortos</p>
-          </div>
-        </div>
-
-        <div class="carousel-item" style="height: 100%;">
-          <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1400&q=60" class="d-block w-100" alt="Slide 3" style="height: 100%; object-fit: cover;">
-          <div class="carousel-caption text-start">
-            <h5 class="mb-1">Clases</h5>
-            <p class="mb-0">Material y repaso</p>
-          </div>
-        </div>
-      </div>
-
-      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-        <span class="visually-hidden">Anterior</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-        <span class="visually-hidden">Siguiente</span>
-      </button>
-    </div>
-  </div>
-
-  <div class="cardApp p-3">
-    <div class="sectionTitle">
-      <h2>Recomendados</h2>
-      <a href="#" onclick="return false;">Ver todo</a>
-    </div>
-    <div class="rail" id="inicioRail1"></div>
-
-    <div class="sectionTitle mt-3">
-      <h2>Clases recientes</h2>
-      <a href="#" onclick="return false;">Ver todo</a>
-    </div>
-    <div class="rail" id="inicioRail2"></div>
-  </div>
   <main class="container my-3">
     <div id="viewHost"></div>
   </main>
 
   <!-- Footer Nav -->
   <nav class="appNav">
-    <div class="container">
-      <div class="row g-2">
-        <div class="col">
-          <button class="navBtn active" data-view="inicio" type="button">
-            <span class="i">I</span><span class="t">Inicio</span>
-          </button>
-        </div>
-        <div class="col">
-          <button class="navBtn" data-view="perfil" type="button">
-            <span class="i">P</span><span class="t">Perfil</span>
-          </button>
-        </div>
-        <div class="col">
-          <button class="navBtn" data-view="calificaciones" type="button">
-            <span class="i">C</span><span class="t">Calif.</span>
-          </button>
-        </div>
-        <div class="col">
-          <button class="navBtn" data-view="pagos" type="button">
-            <span class="i">$</span><span class="t">Pagos</span>
-          </button>
-        </div>
-        <div class="col">
-          <button class="navBtn" data-view="clases" type="button">
-            <span class="i">K</span><span class="t">Clases</span>
-          </button>
-        </div>
-        <div class="col">
-          <button class="navBtn" data-view="horarios" type="button">
-            <span class="i">H</span><span class="t">Horario</span>
-          </button>
-        </div>
+  <div class="container">
+    <div class="row g-2 text-center">
+
+      <div class="col">
+        <button class="navBtn active" data-view="inicio" type="button">
+          <svg viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>
+          <span class="t">Inicio</span>
+        </button>
       </div>
+
+      <div class="col">
+        <button class="navBtn" data-view="perfil" type="button">
+          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/></svg>
+          <span class="t">Perfil</span>
+        </button>
+      </div>
+
+      <div class="col">
+        <button class="navBtn" data-view="calificaciones" type="button">
+          <svg viewBox="0 0 24 24"><path d="M3 3h18v2H3zm2 6h14v2H5zm0 6h10v2H5z"/></svg>
+          <span class="t">Calif.</span>
+        </button>
+      </div>
+
+      <div class="col">
+        <button class="navBtn" data-view="pagos" type="button">
+          <svg viewBox="0 0 24 24"><path d="M21 7H3V5h18zm0 4H3v8h18zM5 15h4v2H5z"/></svg>
+          <span class="t">Pagos</span>
+        </button>
+      </div>
+
+      <div class="col">
+        <button class="navBtn" data-view="clases" type="button">
+          <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h10v2H4z"/></svg>
+          <span class="t">Clases</span>
+        </button>
+      </div>
+
+      <div class="col">
+        <button class="navBtn" data-view="horarios" type="button">
+          <svg viewBox="0 0 24 24"><path d="M12 8v5l3 3M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/></svg>
+          <span class="t">Horario</span>
+        </button>
+      </div>
+
     </div>
-  </nav>
+  </div>
+</nav>
+
 
   <!-- Core JS -->
   <script type="module" src="assets/js/app.js"></script>

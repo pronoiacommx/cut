@@ -1,8 +1,8 @@
 :root{
-  --bg:#0b0f1a;
+  --bg:rgb(22, 64, 190);
   --panel:#0f1629;
   --panel2:#0c1222;
-  --text:#e6e8ee;
+  --text:#000000;
   --muted:#a9b0c3;
   --line:#1b2744;
   --accent:#6ea8fe;
@@ -18,9 +18,9 @@
 body{
   margin:0;
   font-family:var(--sans);
-  background: radial-gradient(1100px 700px at 20% 10%, rgba(110,168,254,.12), transparent 60%),
+  /* background: radial-gradient(1100px 700px at 20% 10%, rgba(110,168,254,.12), transparent 60%),
               radial-gradient(1100px 700px at 90% 40%, rgba(57,217,138,.10), transparent 55%),
-              var(--bg);
+              var(--bg); */
   color:var(--text);
   padding-bottom: 86px; /* espacio para footer nav */
 }
