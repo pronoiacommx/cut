@@ -1,0 +1,70 @@
+<div class="cardx p-3">
+  <div class="d-flex justify-content-between align-items-start gap-2 flex-wrap">
+    <div>
+      <div class="fw-bold">Perfil</div>
+      <div class="sub">Datos del alumno • información principal</div>
+    </div>
+
+    <div class="d-flex gap-2 flex-wrap">
+      <label for="avatarInput" class="btn btn-sm btnx mb-0">
+        <span class="ico">+</span> Cambiar foto
+      </label>
+      <button class="btn btn-sm btnx" id="btnRemovePhoto">Quitar foto</button>
+    </div>
+  </div>
+
+  <div class="d-flex gap-3 align-items-center flex-wrap mt-3">
+    <img id="avatar" class="avatar" alt="Foto de perfil" />
+    <input id="avatarInput" type="file" accept="image/*" />
+
+    <div class="flex-grow-1" style="min-width:240px;">
+      <div id="pNombre" class="fw-bold" style="font-size:18px;">—</div>
+
+      <div class="d-flex gap-2 flex-wrap mt-2">
+        <span class="pill">
+          <span class="dot warn" id="pPagoDot"></span>
+          <span id="pStatusPago">—</span>
+        </span>
+        <span class="pill">Matrícula: <strong id="pMatricula">—</strong></span>
+        <span class="pill">Grupo: <strong id="pGrupo">—</strong></span>
+        <span class="pill">Turno: <strong id="pTurno">—</strong></span>
+      </div>
+
+      <div class="row-muted mt-2" style="font-size:12px;">
+        Último acceso: <strong id="pLast" style="color:var(--text); font-weight:900;">—</strong>
+      </div>
+
+      <div class="row g-2 mt-3">
+        <div class="col-12 col-md-6">
+          <div class="p-3 rounded-4" style="border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.03);">
+            <div class="k">Email</div>
+            <div class="v text-start" id="pEmailText">—</div>
+            <div class="mt-2">
+              <a class="linkBadge" id="pEmailLink" href="#" target="_blank" rel="noopener">
+                <span class="ico">@</span>
+                <span id="pEmail">—</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="p-3 rounded-4" style="border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.03);">
+            <div class="k">Teléfono</div>
+            <div class="v text-start" id="pTelText">—</div>
+            <div class="mt-2">
+              <a class="linkBadge" id="pTelLink" href="#">
+                <span class="ico">☎</span>
+                <span id="pTel">—</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row-muted mt-2" style="font-size:12px;">
+        Tip: en móvil, “tel:” abre el marcador y “mailto:” tu app de correo.
+      </div>
+    </div>
+  </div>
+</div>

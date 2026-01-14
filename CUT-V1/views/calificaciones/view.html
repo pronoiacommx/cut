@@ -1,0 +1,21 @@
+<div class="cardx p-3">
+  <div class="fw-bold">Calificaciones</div>
+  <div class="sub">Agrupadas por periodo</div>
+
+  <div class="d-flex gap-2 flex-wrap align-items-center mt-3">
+    <select class="form-select form-select-sm" style="max-width:180px;" id="periodType">
+      <option value="CUATRIMESTRE">Cuatrimestre</option>
+      <option value="SEMESTRE">Semestre</option>
+      <option value="TRIMESTRE">Trimestre</option>
+      <option value="BIMESTRE">Bimestre</option>
+      <option value="MENSUAL">Mensual</option>
+    </select>
+
+    <select class="form-select form-select-sm" style="max-width:180px;" id="periodNumber"></select>
+
+    <span class="badgeX"><span class="dot good"></span> Promedio: <strong id="avgAll" class="ms-1">—</strong></span>
+    <span class="badgeX"><span class="dot warn"></span> Materias: <strong id="countAll" class="ms-1">—</strong></span>
+  </div>
+
+  <div id="periodsContainer" class="mt-3"></div>
+</div>

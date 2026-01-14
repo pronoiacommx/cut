@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Prospectos • Opción A</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    body{ background:#0b0f1a; color:#e6e8ee; }
+    .card{ background:#0f1629; border:1px solid #1b2744; }
+    .muted{ color:#a9b0c3; }
+    .badge-frio{ background:#6c757d; }
+    .badge-medio{ background:#ffc107; color:#111; }
+    .badge-caliente{ background:#dc3545; }
+  </style>
+</head>
+<body>
+<div class="container py-3">
+
+  <div class="d-flex align-items-center justify-content-between mb-2">
+    <div>
+      <h4 class="mb-0">Prospectos • Opción A</h4>
+      <div class="muted small">Captura pública + auto-asignación + vista vendedor (demo)</div>
+    </div>
+  </div>
+
+  <ul class="nav nav-tabs mb-3" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-intake" type="button" role="tab">Captura prospecto</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-vendor" type="button" role="tab">Vista vendedor</button>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+
+    <!-- CAPTURA -->
+    <div class="tab-pane fade show active" id="tab-intake" role="tabpanel">
+      <div class="row g-3">
+        <div class="col-12 col-lg-6">
+          <div class="card p-3">
+            <h5 class="mb-1">Formulario de captación</h5>
+            <div class="muted small mb-3">Este endpoint crea el prospecto y lo asigna al vendedor con menor carga.</div>
+
+            <div class="mb-2">
+              <label class="form-label">Nombre completo</label>
+              <input id="iNombre" class="form-control" placeholder="Ej. Juan Pérez">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">CURP (opcional)</label>
+              <input id="iCurp" class="form-control" placeholder="18 caracteres">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Email (opcional)</label>
+              <input id="iEmail" class="form-control" type="email" placeholder="correo@dominio.com">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Teléfono (opcional)</label>
+              <input id="iTel" class="form-control" placeholder="10 dígitos">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Interés</label>
+              <select id="iInteres" class="form-select">
+                <option>FRIO</option>
+                <option>MEDIO</option>
+                <option>CALIENTE</option>
+              </select>
+            </div>
+            <div class="row g-2">
+              <div class="col-6">
+                <label class="form-label">Fuente</label>
+                <input id="iFuente" class="form-control" value="web">
+              </div>
+              <div class="col-6">
+                <label class="form-label">Campaña</label>
+                <input id="iCamp" class="form-control" placeholder="fb-ene, google, etc">
+              </div>
+            </div>
+
+            <button id="btnIntake" class="btn btn-primary mt-3 w-100">Crear y auto-asignar</button>
+            <div id="intakeMsg" class="small mt-2"></div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <div class="card p-3">
+            <h6 class="mb-2">Respuesta</h6>
+            <pre class="mb-0" id="intakeRaw" style="min-height:240px; white-space:pre-wrap;"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VENDEDOR -->
+    <div class="tab-pane fade" id="tab-vendor" role="tabpanel">
+      <div class="card p-3 mb-3">
+        <h5 class="mb-1">Login vendedor</h5>
+        <div class="muted small mb-3">Demo: vend1@demo.com / 123456</div>
+
+        <div class="row g-2">
+          <div class="col-12 col-md-4">
+            <input id="vEmail" class="form-control" value="vend1@demo.com">
+          </div>
+          <div class="col-12 col-md-4">
+            <input id="vPass" class="form-control" type="password" value="123456">
+          </div>
+          <div class="col-12 col-md-4 d-grid">
+            <button id="btnVLogin" class="btn btn-success">Entrar</button>
+          </div>
+        </div>
+        <div id="vErr" class="text-danger small mt-2"></div>
+      </div>
+
+      <div class="card p-3">
+        <div class="d-flex gap-2 align-items-center justify-content-between flex-wrap">
+          <div>
+            <h5 class="mb-0">Mis prospectos</h5>
+            <div class="muted small" id="vMe"></div>
+          </div>
+          <div class="d-flex gap-2">
+            <input id="vQ" class="form-control form-control-sm" placeholder="buscar...">
+            <button id="btnVLoad" class="btn btn-outline-light btn-sm">Actualizar</button>
+          </div>
+        </div>
+
+        <div class="table-responsive mt-3">
+          <table class="table table-dark table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Interés</th>
+                <th>Nombre</th>
+                <th>CURP</th>
+                <th>Contacto</th>
+                <th>Etapa</th>
+              </tr>
+            </thead>
+            <tbody id="vTb"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+//const API_BASE = "http://localhost/controlescolar/api";
+const API_BASE = "http://localhost/controlescolar/api/public/index.php";
+let VTOKEN = "";
+
+function api(url, method="GET", body=null, token=""){
+  return $.ajax({
+    url: API_BASE + url,
+    method,
+    contentType: "application/json",
+    data: body ? JSON.stringify(body) : null,
+    headers: token ? { "Authorization": "Bearer " + token } : {}
+  });
+}
+
+function interesBadge(x){
+  if(x==="CALIENTE") return '<span class="badge badge-caliente">CALIENTE</span>';
+  if(x==="MEDIO") return '<span class="badge badge-medio">MEDIO</span>';
+  return '<span class="badge badge-frio">FRIO</span>';
+}
+
+$("#btnIntake").on("click", async ()=>{
+  $("#intakeMsg").removeClass("text-danger text-success").text("");
+  $("#intakeRaw").text("");
+
+  const payload = {
+    nombre_completo: $("#iNombre").val().trim(),
+    curp: $("#iCurp").val().trim(),
+    email: $("#iEmail").val().trim(),
+    telefono: $("#iTel").val().trim(),
+    interes: $("#iInteres").val(),
+    fuente: $("#iFuente").val().trim() || "web",
+    campaña: $("#iCamp").val().trim() || null
+  };
+
+  try{
+    const res = await api("/prospects/intake","POST",payload);
+    $("#intakeMsg").addClass("text-success").text("✅ Prospecto creado y asignado.");
+    $("#intakeRaw").text(JSON.stringify(res,null,2));
+  }catch(e){
+    $("#intakeMsg").addClass("text-danger").text("❌ " + (e.responseJSON?.error || "Error"));
+    $("#intakeRaw").text(JSON.stringify(e.responseJSON || {},null,2));
+  }
+});
+
+$("#btnVLogin").on("click", async ()=>{
+  $("#vErr").text("");
+  try{
+    const res = await api("/login","POST",{email:$("#vEmail").val().trim(), password:$("#vPass").val()});
+    VTOKEN = res.token;
+    $("#vMe").text(`${res.usuario.nombre} • rol_id=${res.usuario.rol_id}`);
+    await loadVendorPros();
+  }catch(e){
+    $("#vErr").text(e.responseJSON?.error || "Error");
+  }
+});
+
+async function loadVendorPros(){
+  if(!VTOKEN) return;
+  const q = $("#vQ").val().trim();
+  const params = new URLSearchParams();
+  if(q) params.set("q", q);
+  const res = await api("/prospects?"+params.toString(),"GET",null,VTOKEN);
+
+  const $tb = $("#vTb").empty();
+  (res.items||[]).forEach(p=>{
+    const contacto = [p.email||"-", p.telefono||"-"].join("<br>");
+    $tb.append(`
+      <tr>
+        <td>${interesBadge(p.interes)}</td>
+        <td>${p.nombre_completo||'<span class="muted">Sin nombre</span>'}</td>
+        <td>${p.curp||'<span class="muted">-</span>'}</td>
+        <td>${contacto}</td>
+        <td>${p.etapa_nombre||p.etapa_id}</td>
+      </tr>
+    `);
+  });
+}
+
+$("#btnVLoad").on("click", loadVendorPros);
+</script>
+</body>
+</html>

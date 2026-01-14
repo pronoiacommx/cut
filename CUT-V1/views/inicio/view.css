@@ -1,0 +1,116 @@
+/* Estilos generales de .cardApp */
+.cardApp {
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* Estilos para el carrusel general (aplicable a otros carruseles si los hay) */
+.carousel .carousel-item img {
+  height: clamp(180px, 32vw, 320px);
+  object-fit: cover;
+  filter: saturate(1.05) contrast(1.05);
+}
+.carousel-caption {
+  text-shadow: 0 2px 16px rgba(0,0,0,.9);
+}
+
+/* Estilos específicos para el carrusel HERO (#heroCarousel) - Full-width y alto */
+#heroCarousel {
+  width: 100vw; /* Ancho completo de la pantalla */
+  height: 85vh; /* 85% del alto de la pantalla (ajusta a 80vh o 90vh si prefieres) */
+}
+#heroCarousel .carousel-inner {
+  height: 100%;
+}
+#heroCarousel .carousel-item {
+  height: 100%;
+}
+#heroCarousel .carousel-item img {
+  height: 100%; /* Sobrescribe el clamp para ocupar todo el alto */
+  object-fit: cover;
+  filter: saturate(1.05) contrast(1.05);
+}
+
+/* Ajuste para quitar márgenes laterales en el contenedor del carrusel hero */
+#heroCarousel .cardApp {
+  margin-left: -15px; /* Empuja hacia afuera del padding del .container */
+  margin-right: -15px;
+  width: calc(100% + 30px); /* Compensa los márgenes negativos */
+}
+
+/* Estilos para .sectionTitle */
+.sectionTitle {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 18px 0 10px;
+}
+.sectionTitle h2 {
+  font-size: 1.05rem;
+  margin: 0;
+  letter-spacing: .2px;
+}
+.sectionTitle a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: .9rem;
+}
+.sectionTitle a:hover {
+  color: var(--text);
+}
+
+/* Estilos para .rail */
+.rail {
+  display: flex;
+  gap: 12px;
+  overflow: auto;
+  padding-bottom: 6px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Estilos para .videoCard */
+.videoCard {
+  flex: 0 0 auto;
+  width: clamp(190px, 42vw, 260px);
+  scroll-snap-align: start;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.09);
+  background: rgba(255,255,255,.03);
+  text-decoration: none;
+  color: var(--text);
+  transition: transform .15s ease, border-color .15s ease;
+}
+.videoCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(110,168,254,.35);
+  color: var(--text);
+}
+.thumb {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+}
+.videoMeta {
+  padding: 10px 10px 12px;
+}
+.videoTitle {
+  font-size: .95rem;
+  line-height: 1.2;
+  margin: 0 0 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.videoSub {
+  color: var(--muted);
+  font-size: .82rem;
+  margin: 0;
+}
