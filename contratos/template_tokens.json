@@ -1,0 +1,19 @@
+{
+  "PROFESIONISTA_NOMBRE": "profesionista_nombre",
+  "PROFESIONISTA_NACIONALIDAD": "profesionista_nacionalidad",
+  "PROFESIONISTA_DOMICILIO_FISCAL": "profesionista_domicilio_fiscal",
+  "PROFESIONISTA_RFC": "profesionista_rfc",
+  "PROFESIONISTA_CURP": "profesionista_curp",
+  "PROFESIONISTA_EMAIL": "profesionista_email",
+  "PROFESIONISTA_TELEFONO": "profesionista_telefono",
+  "SERVICIO_PERIODO": "servicio_periodo",
+  "SERVICIO_CARRERA": "servicio_carrera",
+  "SERVICIO_MATERIA": "servicio_materia",
+  "SERVICIO_CATEGORIA": "servicio_categoria",
+  "PAGO_HORAS": "pago_horas",
+  "PAGO_POR_HORA": "pago_por_hora",
+  "PAGO_TOTAL_SEMESTRE": "pago_total_semestre",
+  "PAGO_TOTAL_LETRA": "pago_total_letra",
+  "FECHA_HOY": "fecha_hoy"
+}
+

@@ -1,0 +1,51 @@
+.catTab{box-shadow:none}
+.catTab.active{
+  border-color: rgba(176,0,32,.35);
+  background: rgba(245,246,250,1);
+  color: var(--text);
+}
+.tagOk{
+  display:inline-flex; align-items:center; gap:8px;
+  border:1px solid rgba(46,125,50,.25);
+  background: rgba(46,125,50,.08);
+  color:#2e7d32;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+}
+.tagOff{
+  display:inline-flex; align-items:center; gap:8px;
+  border:1px solid rgba(176,0,32,.25);
+  background: rgba(176,0,32,.08);
+  color:#b00020;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+}
+
+/* Modal */
+.modal{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9998;
+  background: rgba(18,21,33,.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.modal.hidden{display:none}
+.modalBox{
+  width:min(520px, calc(100vw - 44px));
+  border-radius:18px;
+  padding:18px;
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(18,21,33,.12);
+  box-shadow: 0 20px 50px rgba(18,21,33,.22);
+}
+.modalHd{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px;}
+.modalHd b{font-size:14px}
+.modalActions{display:flex; gap:10px; justify-content:flex-end; margin-top:12px; flex-wrap:wrap;}

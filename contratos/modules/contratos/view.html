@@ -1,0 +1,148 @@
+<div class="view" data-module="contratos">
+  <div class="card">
+    <div class="cardHd">
+      <h2>Alta de profesionista • Generación de contrato</h2>
+      <div class="row">
+        <span class="badge">Minimalista</span>
+        <button class="btn btnGhost" id="btnFillDemo" type="button">Autollenar demo</button>
+      </div>
+    </div>
+
+    <div class="cardBd">
+      <form id="frmContratos" class="stack">
+        <div class="grid">
+          <div>
+            <label>Nombre completo</label>
+            <input name="profesionista_nombre" required placeholder="Ej. Juan Pérez López" />
+          </div>
+          <div>
+            <label>Nacionalidad</label>
+            <input name="profesionista_nacionalidad" value="Mexicana" />
+          </div>
+
+          <div>
+            <label>RFC</label>
+            <input name="profesionista_rfc" required placeholder="Ej. PELJ900101ABC" />
+          </div>
+          <div>
+            <label>CURP</label>
+            <input name="profesionista_curp" required placeholder="Ej. PELJ900101HDFRPN01" />
+          </div>
+
+          <div>
+            <label>Email</label>
+            <input name="profesionista_email" type="email" required placeholder="correo@ejemplo.com" />
+          </div>
+          <div>
+            <label>Teléfono</label>
+            <input name="profesionista_telefono" required placeholder="10 dígitos" />
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="grid">
+          <div style="grid-column:1 / -1">
+            <label>Domicilio fiscal (texto completo)</label>
+            <textarea name="profesionista_domicilio_fiscal" required placeholder="Calle, número, colonia, municipio, estado, C.P."></textarea>
+            <div class="hint">Tip: luego puedes estructurarlo y ensamblar el texto aquí.</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="grid">
+          <div>
+            <label>Periodo / Ciclo</label>
+            <input name="servicio_periodo" required placeholder="Ej. Otoño 2025" />
+          </div>
+          <div>
+            <label>Departamento / Carrera</label>
+            <input name="servicio_carrera" required placeholder="Ej. Licenciatura en Derecho" />
+          </div>
+          <div>
+            <label>Materia</label>
+            <input name="servicio_materia" required placeholder="Ej. Derecho Mercantil" />
+          </div>
+          <div>
+            <label>Categoría</label>
+            <input name="servicio_categoria" placeholder="Ej. Profesionista A" />
+          </div>
+          <div>
+            <label>Horas (semestre)</label>
+            <input name="pago_horas" type="number" min="0" step="1" placeholder="Ej. 51" />
+          </div>
+          <div>
+            <label>Importe por hora (MXN)</label>
+            <input name="pago_por_hora" type="number" min="0" step="0.01" placeholder="Ej. 298.04" />
+          </div>
+          <div>
+            <label>Total semestre (MXN)</label>
+            <input name="pago_total_semestre" type="number" min="0" step="0.01" placeholder="Ej. 15200.00" />
+          </div>
+          <div>
+            <label>Monto en letra (opcional)</label>
+            <input name="pago_total_letra" placeholder='Ej. "Quince mil doscientos pesos 00/100 M.N."' />
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="grid">
+          <div class="file">
+            <label>INE (frente) — PDF/JPG/PNG</label>
+            <input type="file" name="file_ine_frente" accept=".pdf,image/*" required />
+          </div>
+          <div class="file">
+            <label>INE (vuelta) — PDF/JPG/PNG (opcional)</label>
+            <input type="file" name="file_ine_vuelta" accept=".pdf,image/*" />
+          </div>
+          <div class="file">
+            <label>Comprobante de domicilio — PDF/JPG/PNG</label>
+            <input type="file" name="file_comprobante" accept=".pdf,image/*" required />
+          </div>
+          <div class="file">
+            <label>CURP (archivo) — PDF/JPG/PNG</label>
+            <input type="file" name="file_curp" accept=".pdf,image/*" required />
+          </div>
+          <div class="file" style="grid-column:1/-1">
+            <label>Constancia de situación fiscal (SAT) — (recomendado)</label>
+            <input type="file" name="file_constancia_fiscal" accept=".pdf,image/*" />
+          </div>
+        </div>
+
+        <div class="footerActions">
+          <button class="btn btnGhost" type="button" id="btnPing">Probar API</button>
+          <button class="btn btnPrimary" type="submit">Generar contrato (DOCX + PDF)</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="cardHd">
+      <h2>Resultado</h2>
+      <span class="badge" id="runBadge">Sin ejecutar</span>
+    </div>
+    <div class="cardBd stack">
+      <div class="hint">
+        1) Envía el formulario<br>
+        2) Backend llena el DOCX con plantilla<br>
+        3) Convierte a PDF y sube todo a Google Drive
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="stack">
+        <div class="small">DOCX generado:</div>
+        <div><a id="docxLink" href="#" target="_blank" rel="noopener" style="display:none">Descargar DOCX</a><span id="docxEmpty" class="small">—</span></div>
+
+        <div class="small">PDF generado:</div>
+        <div><a id="pdfLink" href="#" target="_blank" rel="noopener" style="display:none">Descargar PDF</a><span id="pdfEmpty" class="small">—</span></div>
+
+        <div class="small">Google Drive:</div>
+        <div class="small" id="driveInfo">—</div>
+      </div>
+    </div>
+  </div>
+</div>

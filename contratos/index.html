@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CUT • Sistema</title>
+
+  <!-- Global theme + layout -->
+  <link rel="stylesheet" href="./core/theme.css">
+  <link rel="stylesheet" href="./core/app.css">
+</head>
+
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="dot"></div>
+    <div>
+      <h1>CUT • Sistema</h1>
+      <div class="sub">Módulos: Contratos, Expedientes, Catálogos y Config (Tema CUT Minimal Glass).</div>
+    </div>
+  </div>
+
+  <div class="pill">
+    <span>API:</span>
+    <span class="mono" id="apiBaseLabel">DESARROLLO</span>
+  </div>
+</header>
+
+<div class="appShell">
+
+  <!-- SIDEBAR -->
+  <aside class="card side">
+    <div class="sideTop">
+      <div class="sideTitle">
+        <b>Menú</b>
+        <span class="mono" id="whoami">CUT Minimal Glass</span>
+      </div>
+      <span class="badge" id="statusBadge">Listo</span>
+    </div>
+
+    <div class="nav">
+      <button class="navBtn active" data-route="contratos" type="button">
+        <div class="navLeft">
+          <div class="ico">C</div>
+          <div class="navTxt">
+            <b>Contratos</b>
+            <span>Alta + generar PDF</span>
+          </div>
+        </div>
+        <div class="chev">›</div>
+      </button>
+
+      <button class="navBtn" data-route="expedientes" type="button">
+        <div class="navLeft">
+          <div class="ico">E</div>
+          <div class="navTxt">
+            <b>Expedientes</b>
+            <span>Buscar y abrir Drive</span>
+          </div>
+        </div>
+        <div class="chev">›</div>
+      </button>
+
+      <button class="navBtn" data-route="catalogos" type="button">
+        <div class="navLeft">
+          <div class="ico">K</div>
+          <div class="navTxt">
+            <b>Catálogos</b>
+            <span>Carreras, materias, categorías</span>
+          </div>
+        </div>
+        <div class="chev">›</div>
+      </button>
+
+      <button class="navBtn" data-route="config" type="button">
+        <div class="navLeft">
+          <div class="ico">⚙</div>
+          <div class="navTxt">
+            <b>Config</b>
+            <span>Base URL API</span>
+          </div>
+        </div>
+        <div class="chev">›</div>
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <section class="stack">
+    <!-- Aquí se inyecta el módulo actual -->
+    <div id="viewHost"></div>
+  </section>
+</div>
+
+<!-- Global modals/overlays -->
+<div id="loader" class="loader hidden" role="dialog" aria-modal="true" aria-label="Procesando">
+  <div class="loaderBox">
+    <div class="spinner"></div>
+    <div id="loaderTitle">Procesando…</div>
+    <div id="loaderMsg">Por favor espera</div>
+
+    <div class="progressWrap" aria-label="Progreso">
+      <div class="progressBar" id="progressBar"></div>
+    </div>
+    <div class="progressText" id="progressText">0%</div>
+  </div>
+</div>
+
+<div id="toastGlobal" class="toast globalToast"></div>
+
+<!-- App bootstrap -->
+<script type="module" src="./core/app.js"></script>
+</body>
+</html>

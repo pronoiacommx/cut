@@ -1,0 +1,43 @@
+<div class="view" data-module="expedientes">
+  <div class="card">
+    <div class="cardHd">
+      <h2>Expedientes</h2>
+      <div class="row">
+        <input id="searchBox" placeholder="Buscar por RFC, nombre, email o teléfono…" style="min-width:320px" />
+        <button class="btn" id="btnSearch" type="button">Buscar</button>
+        <button class="btn btnGhost" id="btnRecent" type="button">Recientes</button>
+      </div>
+    </div>
+
+    <div class="cardBd stack">
+      <div class="hint">Aquí ves el último contrato por profesionista. Links directos a carpeta Drive y PDF.</div>
+
+      <div class="tblWrap">
+        <table style="min-width:860px">
+          <thead>
+            <tr>
+              <th>RFC</th>
+              <th>Nombre</th>
+              <th>Periodo</th>
+              <th>Materia</th>
+              <th>Fecha</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tblExpBody">
+            <tr><td colspan="6" class="small">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="row" style="justify-content:space-between; margin-top:8px;">
+        <div class="small" id="pagerInfo">—</div>
+        <div class="row">
+          <button class="btn btnGhost" id="btnPrev" type="button">←</button>
+          <span class="badge" id="pageBadge">1</span>
+          <button class="btn btnGhost" id="btnNext" type="button">→</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
