@@ -1,4 +1,3 @@
-// ui/vistas/clases/clases.js
 import { apiFetch } from "../../core/api.js";
 import { $, showLoader, hideLoader, toast } from "../../../ui.js";
 
@@ -10,6 +9,7 @@ window.Modules.clases = {
         const renderClases = async () => {
             showLoader("Consultando Horario", "Obteniendo datos del servidor...");
             try {
+                // Obtenemos los datos con las nuevas columnas: hora_inicio, hora_fin, dia_nombre
                 const data = await apiFetch("get_clases_profesor");
                 
                 if (!data || data.length === 0) {
@@ -18,19 +18,19 @@ window.Modules.clases = {
                     return;
                 }
 
-                // Inyectamos las filas con el estilo de Expedientes
                 body.innerHTML = data.map(c => `
                     <tr>
-                        <td style="font-weight:bold; color: var(--rh-red);">${c.hora_inicio} - ${c.hora_fin}</td>
+                        <td style="font-weight:bold; color: var(--rh-red);">
+                            ${c.hora_inicio.substring(0,5)} - ${c.hora_fin.substring(0,5)}
+                        </td>
                         <td>
                             <div style="font-weight:700; color: var(--text-dark);">${c.nombre_materia}</div>
-                            <div class="small text-muted">${c.clave}</div>
+                            <div class="small text-muted">${c.clave || 'S/C'}</div>
                         </td>
                         <td><span class="badge-cycle">${c.nombre_grupo}</span></td>
-                        <td>${c.dia_nombre}</td>
-                        <td><span class="text-muted">📍 ${c.aula || 'S/N'}</span></td>
+                        <td>${c.nombre_dia}</td> <td><span class="text-muted">📍 ${c.aula || 'Aula 101'}</span></td>
                         <td style="text-align:right; padding-right: 20px;">
-                            <button class="btn-action-clase" onclick="location.hash='#asistencias?id=${c.id}'">
+                            <button class="btn-action-clase" onclick="window.Modules.clases.abrirPaseLista(${c.carga_id})">
                                 📝 Pasar Lista
                             </button>
                         </td>
@@ -49,7 +49,6 @@ window.Modules.clases = {
 
         await renderClases();
     },
-    // Dentro de window.Modules.clases en clases.js
 
     abrirPaseLista: async function (claseId) {
         const modal = document.getElementById('modalAsistencia');
@@ -60,7 +59,9 @@ window.Modules.clases = {
         bodyAsis.innerHTML = '<p class="text-center">Cargando lista de alumnos...</p>';
 
         try {
-            const alumnos = await fetch(`./api/get_alumnos_clase.php?clase_id=${claseId}`).then(r => r.json());
+            // Buscamos los alumnos inscritos en esta carga académica específica
+            const response = await fetch(`./api/get_alumnos_clase.php?clase_id=${claseId}`).then(r => r.json());
+            const alumnos = response.data || [];
             
             if (alumnos.length === 0) {
                 bodyAsis.innerHTML = '<p class="text-center">No hay alumnos inscritos en este grupo.</p>';
@@ -68,10 +69,10 @@ window.Modules.clases = {
             }
 
             let html = `
-                <table class="table-full">
+                <table class="table-full" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Alumno</th>
+                            <th style="text-align:left; padding:10px;">Alumno</th>
                             <th style="text-align:center">Asistencia</th>
                         </tr>
                     </thead>
@@ -80,10 +81,10 @@ window.Modules.clases = {
 
             alumnos.forEach(al => {
                 html += `
-                    <tr>
-                        <td>${al.nombre} ${al.apellidos}</td>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding:10px;">${al.nombre} ${al.apellidos}</td>
                         <td style="text-align:center">
-                            <input type="checkbox" class="asis-check" data-id="${al.alumno_id}" checked style="transform: scale(1.5);">
+                            <input type="checkbox" class="asis-check" data-id="${al.alumno_id}" checked style="transform: scale(1.5); accent-color: var(--rh-red);">
                         </td>
                     </tr>
                 `;
@@ -92,21 +93,20 @@ window.Modules.clases = {
             html += `</tbody></table>`;
             bodyAsis.innerHTML = html;
 
-            // Configurar el botón de guardar
-            document.getElementById('btnGuardarAsistencia').onclick = () => guardarAsistencia(claseId);
+            document.getElementById('btnGuardarAsistencia').onclick = () => this.procesarGuardado(claseId);
 
         } catch (err) {
             bodyAsis.innerHTML = '<p class="text-center" style="color:red">Error al cargar la lista.</p>';
         }
     },
-    procesarGuardado: async function (claseId, alumnos) {
-        const listaAsistencia = alumnos.map(al => {
-            return {
-                alumno_id: al.alumno_id,
-                estatus: document.querySelector(`input[name="asis_${al.alumno_id}"]:checked`).value
-            };
-        });
-        // Mostramos el loader global que ya tienes
+
+    procesarGuardado: async function (claseId) {
+        const checks = document.querySelectorAll('.asis-check');
+        const listaAsistencia = Array.from(checks).map(ch => ({
+            alumno_id: ch.dataset.id,
+            presente: ch.checked ? 1 : 0
+        }));
+
         showLoader("Guardando asistencia...");
         try {
             const response = await fetch('./api/save_asistencias.php', {
@@ -120,20 +120,15 @@ window.Modules.clases = {
 
             if (response.status === 'success') {
                 hideLoader();
-                showModal("¡Éxito!", "La asistencia se ha guardado correctamente. Volviendo a tus clases...");
-                // Redirección automática después de 1.5 segundos
-                setTimeout(() => {
-                    location.hash = '#clases';
-                }, 1500);
+                toast("Asistencia guardada con éxito", "success");
+                document.getElementById('modalAsistencia').classList.add('hidden');
+                document.getElementById('modalAsistencia').style.display = 'none';
             } else {
-                alert("❌ Error: " + response.message);        
-                showModal("Error Crítico", "❌ Error: " + response.message);
-
+                toast("Error: " + response.message, "err");
             }
         } catch (err) {
             hideLoader();
-        showModal("Error Crítico", "Hubo un fallo en la conexión con el servidor.");
-        console.error(err);
+            toast("Fallo de conexión", "err");
         }
     },
 

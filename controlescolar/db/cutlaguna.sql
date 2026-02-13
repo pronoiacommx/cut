@@ -28,18 +28,19 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `alumnos`
 --
 
+
 CREATE TABLE `alumnos` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20)  NOT NULL,
   `matricula` varchar(20) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `apellidos` varchar(50) NOT NULL,
-  `fecha_nacimiento` date NOT NULL DEFAULT current_timestamp(),
+  `fecha_nacimiento` date NOT NULL,
   `genero` enum('M','F','O') DEFAULT NULL,
   `curp` varchar(18) DEFAULT NULL,
   `correo_personal` varchar(100) DEFAULT NULL,
   `telefono_contacto` varchar(15) DEFAULT NULL,
   `carrera` varchar(100) DEFAULT NULL,
-  `semestre_actual` int(11) DEFAULT 1,
+  `semestre_actual` bigint(20) DEFAULT 1,
   `estatus_academico` enum('Activo','Baja Temporal','Egregado','Inactivo') DEFAULT 'Activo',
   `promedio_general` decimal(4,2) DEFAULT 0.00,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -128,8 +129,8 @@ INSERT INTO `alumnos` (`id`, `matricula`, `nombre`, `apellidos`, `fecha_nacimien
 --
 
 CREATE TABLE `alumnos_documentos` (
-  `id` int(11) NOT NULL,
-  `alumno_id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20) NOT NULL,
+  `alumno_id` bigint(20)  NOT NULL,
   `nombre_documento` varchar(100) NOT NULL,
   `archivo_url` varchar(255) NOT NULL,
   `estatus` enum('Pendiente','Validado','Rechazado') DEFAULT 'Pendiente',
@@ -144,10 +145,10 @@ CREATE TABLE `alumnos_documentos` (
 --
 
 CREATE TABLE `alumnos_grupo` (
-  `id` int(11) NOT NULL,
-  `alumno_id` bigint(20) UNSIGNED NOT NULL,
-  `grupo_id` int(11) NOT NULL,
-  `ciclo_id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
+  `alumno_id` bigint(20)  NOT NULL,
+  `grupo_id` bigint(20) NOT NULL,
+  `ciclo_id` bigint(20) NOT NULL,
   `fecha_asignacion` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -172,11 +173,11 @@ INSERT INTO `alumnos_grupo` (`id`, `alumno_id`, `grupo_id`, `ciclo_id`, `fecha_a
 
 CREATE TABLE `alumno_asistencias` (
   `id` bigint(20) NOT NULL,
-  `clase_asignada_id` int(11) NOT NULL,
-  `alumno_id` bigint(20) UNSIGNED NOT NULL,
+  `clase_asignada_id` bigint(20) NOT NULL,
+  `alumno_id` bigint(20)  NOT NULL,
   `fecha` date NOT NULL,
   `estatus` enum('Asistencia','Falta','Retardo','Justificada') DEFAULT 'Asistencia',
-  `profesor_id` int(11) NOT NULL,
+  `profesor_id` bigint(20) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -187,7 +188,7 @@ CREATE TABLE `alumno_asistencias` (
 --
 
 CREATE TABLE `aspirantes` (
-  `aspirante_id` bigint(20) UNSIGNED NOT NULL,
+  `aspirante_id` bigint(20)  NOT NULL,
   `guid` char(36) NOT NULL,
   `nombre` varchar(120) NOT NULL,
   `apellido_paterno` varchar(120) NOT NULL,
@@ -198,10 +199,10 @@ CREATE TABLE `aspirantes` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `invite_sent_at` datetime DEFAULT NULL,
-  `invite_sent_count` int(11) NOT NULL DEFAULT 0,
+  `invite_sent_count` bigint(20) NOT NULL DEFAULT 0,
   `last_invite_error` text DEFAULT NULL,
   `is_active` tinyint(4) NOT NULL DEFAULT 1,
-  `etapa_flujo` int(11) DEFAULT 1,
+  `etapa_flujo` bigint(20) DEFAULT 1,
   `aprobado_docs` tinyint(4) DEFAULT 0,
   `validado_firma` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -223,9 +224,9 @@ INSERT INTO `aspirantes` (`aspirante_id`, `guid`, `nombre`, `apellido_paterno`, 
 --
 
 CREATE TABLE `calificaciones` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `id_alumno` bigint(20) UNSIGNED NOT NULL,
-  `id_carga_academica` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20)  NOT NULL,
+  `id_alumno` bigint(20)  NOT NULL,
+  `id_carga_academica` bigint(20)  NOT NULL,
   `parcial_1` decimal(4,2) DEFAULT NULL,
   `parcial_2` decimal(4,2) DEFAULT NULL,
   `examen_final` decimal(4,2) DEFAULT NULL,
@@ -666,10 +667,10 @@ INSERT INTO `calificaciones` (`id`, `id_alumno`, `id_carga_academica`, `parcial_
 --
 
 CREATE TABLE `carga_academica` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `id_grupo_ciclo` bigint(20) UNSIGNED NOT NULL,
-  `id_materia` bigint(20) UNSIGNED NOT NULL,
-  `id_empleado` bigint(20) UNSIGNED DEFAULT NULL,
+  `id` bigint(20)  NOT NULL,
+  `id_grupo_ciclo` bigint(20)  NOT NULL,
+  `id_materia` bigint(20)  NOT NULL,
+  `id_empleado` bigint(20)  DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -842,7 +843,7 @@ INSERT INTO `carga_academica` (`id`, `id_grupo_ciclo`, `id_materia`, `id_emplead
 --
 
 CREATE TABLE `categorias` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20)  NOT NULL,
   `name` varchar(200) NOT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -857,8 +858,8 @@ CREATE TABLE `categorias` (
 --
 
 CREATE TABLE `cat_carreras` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `id_nivel_academico` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20)  NOT NULL,
+  `id_nivel_academico` bigint(20)  NOT NULL,
   `nombre_carrera` varchar(255) NOT NULL,
   `is_active` tinyint(1) DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL
@@ -879,9 +880,9 @@ INSERT INTO `cat_carreras` (`id`, `id_nivel_academico`, `nombre_carrera`, `is_ac
 --
 
 CREATE TABLE `cat_ciclos` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` int(11)  NOT NULL ,
   `nombre_ciclo` varchar(100) NOT NULL,
-  `id_tipo_periodo` bigint(20) UNSIGNED NOT NULL,
+  `id_tipo_periodo` bigint(20)  NOT NULL,
   `is_active` tinyint(1) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -911,7 +912,7 @@ INSERT INTO `cat_ciclos` (`id`, `nombre_ciclo`, `id_tipo_periodo`, `is_active`, 
 --
 
 CREATE TABLE `cat_dias_semana` (
-  `id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `nombre` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -935,7 +936,7 @@ INSERT INTO `cat_dias_semana` (`id`, `nombre`) VALUES
 --
 
 CREATE TABLE `cat_estados_asistencia` (
-  `id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `abreviatura` char(1) DEFAULT NULL,
   `color_hex` varchar(7) DEFAULT NULL
@@ -958,7 +959,7 @@ INSERT INTO `cat_estados_asistencia` (`id`, `nombre`, `abreviatura`, `color_hex`
 --
 
 CREATE TABLE `cat_estatus_inscripcion` (
-  `id` tinyint(3) UNSIGNED NOT NULL,
+  `id` tinyint(3)  NOT NULL,
   `nombre_estatus` varchar(50) NOT NULL,
   `descripcion` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -981,7 +982,7 @@ INSERT INTO `cat_estatus_inscripcion` (`id`, `nombre_estatus`, `descripcion`) VA
 --
 
 CREATE TABLE `cat_estatus_registros` (
-  `id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `nombre` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1000,7 +1001,7 @@ INSERT INTO `cat_estatus_registros` (`id`, `nombre`) VALUES
 --
 
 CREATE TABLE `cat_estatus_usuario` (
-  `id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `nombre` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1021,9 +1022,9 @@ INSERT INTO `cat_estatus_usuario` (`id`, `nombre`) VALUES
 --
 
 CREATE TABLE `cat_grupos` (
-  `id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `nombre_grupo` varchar(50) NOT NULL,
-  `grado` int(11) DEFAULT NULL,
+  `grado` bigint(20) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1046,7 +1047,7 @@ INSERT INTO `cat_grupos` (`id`, `nombre_grupo`, `grado`, `created_at`) VALUES
 --
 
 CREATE TABLE `cat_materias` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20)  NOT NULL,
   `nombre_materia` varchar(255) NOT NULL,
   `clave` varchar(20) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT 1,
@@ -1102,7 +1103,7 @@ INSERT INTO `cat_materias` (`id`, `nombre_materia`, `clave`, `is_active`, `creat
 --
 
 CREATE TABLE `cat_nivel_academico` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20)  NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` text DEFAULT NULL,
   `fecha_alta` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -1126,7 +1127,7 @@ INSERT INTO `cat_nivel_academico` (`id`, `nombre`, `descripcion`, `fecha_alta`, 
 --
 
 CREATE TABLE `cat_tipos_periodo` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20)  NOT NULL,
   `nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1146,7 +1147,7 @@ INSERT INTO `cat_tipos_periodo` (`id`, `nombre`) VALUES
 --
 
 CREATE TABLE `cat_tipo_constancia` (
-  `id_tipo` int(11) NOT NULL,
+  `id_tipo` bigint(20) NOT NULL,
   `nombre_tipo` varchar(100) NOT NULL,
   `costo` decimal(10,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1167,12 +1168,12 @@ INSERT INTO `cat_tipo_constancia` (`id_tipo`, `nombre_tipo`, `costo`) VALUES
 --
 
 CREATE TABLE `clases_asignadas` (
-  `id` int(11) NOT NULL,
-  `profesor_id` int(11) DEFAULT NULL,
-  `ciclo_id` int(11) NOT NULL,
-  `materia_id` int(11) DEFAULT NULL,
-  `grupo_id` int(11) DEFAULT NULL,
-  `dia_id` int(11) DEFAULT NULL,
+  `id` bigint(20) NOT NULL,
+  `profesor_id` bigint(20) DEFAULT NULL,
+  `ciclo_id` bigint(20) NOT NULL,
+  `materia_id` bigint(20) DEFAULT NULL,
+  `grupo_id` bigint(20) DEFAULT NULL,
+  `dia_id` bigint(20) DEFAULT NULL,
   `hora_inicio` time DEFAULT NULL,
   `hora_fin` time DEFAULT NULL,
   `aula` varchar(50) NOT NULL
@@ -1193,14 +1194,14 @@ INSERT INTO `clases_asignadas` (`id`, `profesor_id`, `ciclo_id`, `materia_id`, `
 --
 
 CREATE TABLE `contratos` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `profesionista_id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20)  NOT NULL,
+  `profesionista_id` bigint(20)  NOT NULL,
   `run_id` varchar(40) NOT NULL,
   `servicio_periodo` varchar(120) NOT NULL,
   `servicio_carrera` varchar(200) NOT NULL,
   `servicio_materia` varchar(200) NOT NULL,
   `servicio_categoria` varchar(120) DEFAULT NULL,
-  `pago_horas` int(11) DEFAULT NULL,
+  `pago_horas` bigint(20) DEFAULT NULL,
   `pago_por_hora` decimal(12,2) DEFAULT NULL,
   `pago_total_semestre` decimal(12,2) DEFAULT NULL,
   `pago_total_letra` varchar(300) DEFAULT NULL,
@@ -1227,8 +1228,8 @@ CREATE TABLE `contratos` (
 --
 
 CREATE TABLE `contrato_adjuntos` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `contrato_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `id` bigint(20)  NOT NULL,
+  `contrato_id` bigint(20)  DEFAULT NULL,
   `borrador_guid` varchar(64) DEFAULT NULL,
   `nombre` varchar(255) NOT NULL,
   `local_path` varchar(512) DEFAULT NULL,
@@ -1263,8 +1264,8 @@ INSERT INTO `contrato_adjuntos` (`id`, `contrato_id`, `borrador_guid`, `nombre`,
 --
 
 CREATE TABLE `contrato_borradores` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `aspirante_id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20)  NOT NULL,
+  `aspirante_id` bigint(20)  NOT NULL,
   `guid` char(36) NOT NULL,
   `payload` longtext DEFAULT NULL,
   `current_step` tinyint(4) NOT NULL DEFAULT 1,
@@ -1273,7 +1274,7 @@ CREATE TABLE `contrato_borradores` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `is_active` tinyint(4) NOT NULL DEFAULT 1,
-  `etapa_flujo` int(11) DEFAULT 1,
+  `etapa_flujo` bigint(20) DEFAULT 1,
   `aprobado_docs` tinyint(4) DEFAULT 0,
   `validado_firma` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1295,7 +1296,7 @@ INSERT INTO `contrato_borradores` (`id`, `aspirante_id`, `guid`, `payload`, `cur
 --
 
 CREATE TABLE `empleados` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20)  NOT NULL,
   `num_empleado` varchar(20) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `apellidos` varchar(50) NOT NULL,
@@ -1345,8 +1346,8 @@ INSERT INTO `empleados` (`id`, `num_empleado`, `nombre`, `apellidos`, `fecha_nac
 --
 
 CREATE TABLE `firma_solicitudes` (
-  `id` int(11) NOT NULL,
-  `aspirante_id` int(11) DEFAULT NULL,
+  `id` bigint(20) NOT NULL,
+  `aspirante_id` bigint(20) DEFAULT NULL,
   `token` varchar(64) NOT NULL,
   `status` enum('PENDING','SIGNED','EXPIRED','REJECTED') DEFAULT 'PENDING',
   `ip_address` varchar(45) DEFAULT NULL,
@@ -1411,8 +1412,8 @@ INSERT INTO `firma_solicitudes` (`id`, `aspirante_id`, `token`, `status`, `ip_ad
 --
 
 CREATE TABLE `grupos` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `id_carrera` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20)  NOT NULL,
+  `id_carrera` bigint(20)  NOT NULL,
   `nombre_grupo` varchar(50) NOT NULL,
   `is_active` tinyint(1) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -1440,9 +1441,9 @@ INSERT INTO `grupos` (`id`, `id_carrera`, `nombre_grupo`, `is_active`, `created_
 --
 
 CREATE TABLE `grupos_ciclos` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `id_ciclo` bigint(20) UNSIGNED NOT NULL,
-  `id_grupo` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20)  NOT NULL,
+  `id_ciclo` bigint(20)  NOT NULL,
+  `id_grupo` bigint(20)  NOT NULL,
   `fecha_inicio` date DEFAULT NULL,
   `fecha_fin` date DEFAULT NULL,
   `fecha_inicio_sep` date DEFAULT NULL,
@@ -1508,10 +1509,10 @@ INSERT INTO `grupos_ciclos` (`id`, `id_ciclo`, `id_grupo`, `fecha_inicio`, `fech
 --
 
 CREATE TABLE `inscripciones` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `id_alumno` bigint(20) UNSIGNED NOT NULL,
-  `id_grupo_ciclo` bigint(20) UNSIGNED NOT NULL,
-  `id_estatus` tinyint(3) UNSIGNED NOT NULL DEFAULT 1,
+  `id` bigint(20)  NOT NULL,
+  `id_alumno` bigint(20)  NOT NULL,
+  `id_grupo_ciclo` bigint(20)  NOT NULL,
+  `id_estatus` tinyint(3)  NOT NULL DEFAULT 1,
   `fecha_inscripcion` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1557,13 +1558,13 @@ INSERT INTO `inscripciones` (`id`, `id_alumno`, `id_grupo_ciclo`, `id_estatus`, 
 --
 
 CREATE TABLE `registro_constancias` (
-  `id_registro` int(11) NOT NULL,
-  `id_alumno` bigint(20) UNSIGNED NOT NULL,
-  `id_tipo` int(11) NOT NULL,
+  `id_registro` bigint(20) NOT NULL,
+  `id_alumno` bigint(20)  NOT NULL,
+  `id_tipo` bigint(20) NOT NULL,
   `estatus_pago` enum('Pendiente','Pagado') DEFAULT 'Pendiente',
   `estatus_proceso` enum('Solicitado','En Proceso','Listo','Entregado') DEFAULT 'Solicitado',
   `fecha_solicitud` datetime DEFAULT current_timestamp(),
-  `vigencia_dias` int(11) DEFAULT 30,
+  `vigencia_dias` bigint(20) DEFAULT 30,
   `fecha_emision` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1585,7 +1586,7 @@ INSERT INTO `registro_constancias` (`id_registro`, `id_alumno`, `id_tipo`, `esta
 --
 
 CREATE TABLE `roles` (
-  `id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `nombre_rol` varchar(50) NOT NULL,
   `slug` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1607,14 +1608,14 @@ INSERT INTO `roles` (`id`, `nombre_rol`, `slug`) VALUES
 --
 
 CREATE TABLE `rvoes` (
-  `id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `rvoe_numero` varchar(50) DEFAULT NULL,
   `fecha_otorgamiento` date DEFAULT NULL,
   `institucion` varchar(255) DEFAULT NULL,
   `nivel_estudios` varchar(100) DEFAULT NULL,
   `nombre_programa` varchar(255) DEFAULT NULL,
   `modalidad` varchar(100) DEFAULT NULL,
-  `total_creditos` int(11) DEFAULT NULL
+  `total_creditos` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1624,13 +1625,13 @@ CREATE TABLE `rvoes` (
 --
 
 CREATE TABLE `rvoe_materias` (
-  `id` int(11) NOT NULL,
-  `rvoe_id` int(11) DEFAULT NULL,
-  `cuatrimestre_numero` int(11) DEFAULT NULL,
+  `id` bigint(20) NOT NULL,
+  `rvoe_id` bigint(20) DEFAULT NULL,
+  `cuatrimestre_numero` bigint(20) DEFAULT NULL,
   `asignatura` varchar(255) DEFAULT NULL,
   `clave` varchar(50) DEFAULT NULL,
-  `horas_docente` int(11) DEFAULT NULL,
-  `creditos` int(11) DEFAULT NULL
+  `horas_docente` bigint(20) DEFAULT NULL,
+  `creditos` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1640,13 +1641,13 @@ CREATE TABLE `rvoe_materias` (
 --
 
 CREATE TABLE `usuarios` (
-  `id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `rol_id` int(11) DEFAULT NULL,
+  `rol_id` bigint(20) DEFAULT NULL,
   `force_change` tinyint(1) DEFAULT 1,
   `perfil_tipo` enum('ALUMNO','VENDEDOR','EMPLEADO') DEFAULT NULL,
-  `perfil_id` int(11) DEFAULT NULL,
+  `perfil_id` bigint(20) DEFAULT NULL,
   `status` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1936,19 +1937,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `alumnos`
 --
 ALTER TABLE `alumnos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT de la tabla `alumnos_documentos`
 --
 ALTER TABLE `alumnos_documentos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `alumnos_grupo`
 --
 ALTER TABLE `alumnos_grupo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `alumno_asistencias`
@@ -1960,181 +1961,181 @@ ALTER TABLE `alumno_asistencias`
 -- AUTO_INCREMENT de la tabla `aspirantes`
 --
 ALTER TABLE `aspirantes`
-  MODIFY `aspirante_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `aspirante_id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `calificaciones`
 --
 ALTER TABLE `calificaciones`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=421;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=421;
 
 --
 -- AUTO_INCREMENT de la tabla `carga_academica`
 --
 ALTER TABLE `carga_academica`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=236;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=236;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_carreras`
 --
 ALTER TABLE `cat_carreras`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_ciclos`
 --
 ALTER TABLE `cat_ciclos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_dias_semana`
 --
 ALTER TABLE `cat_dias_semana`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_estados_asistencia`
 --
 ALTER TABLE `cat_estados_asistencia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_estatus_inscripcion`
 --
 ALTER TABLE `cat_estatus_inscripcion`
-  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` tinyint(3)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_estatus_registros`
 --
 ALTER TABLE `cat_estatus_registros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_estatus_usuario`
 --
 ALTER TABLE `cat_estatus_usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_grupos`
 --
 ALTER TABLE `cat_grupos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_materias`
 --
 ALTER TABLE `cat_materias`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_nivel_academico`
 --
 ALTER TABLE `cat_nivel_academico`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_tipos_periodo`
 --
 ALTER TABLE `cat_tipos_periodo`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_tipo_constancia`
 --
 ALTER TABLE `cat_tipo_constancia`
-  MODIFY `id_tipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_tipo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `clases_asignadas`
 --
 ALTER TABLE `clases_asignadas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `contrato_adjuntos`
 --
 ALTER TABLE `contrato_adjuntos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `contrato_borradores`
 --
 ALTER TABLE `contrato_borradores`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- AUTO_INCREMENT de la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT de la tabla `firma_solicitudes`
 --
 ALTER TABLE `firma_solicitudes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `grupos`
 --
 ALTER TABLE `grupos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `grupos_ciclos`
 --
 ALTER TABLE `grupos_ciclos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de la tabla `inscripciones`
 --
 ALTER TABLE `inscripciones`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` bigint(20)  NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_constancias`
 --
 ALTER TABLE `registro_constancias`
-  MODIFY `id_registro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_registro` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `rvoes`
 --
 ALTER TABLE `rvoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `rvoe_materias`
 --
 ALTER TABLE `rvoe_materias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Restricciones para tablas volcadas
@@ -2151,8 +2152,7 @@ ALTER TABLE `alumnos_documentos`
 --
 ALTER TABLE `alumnos_grupo`
   ADD CONSTRAINT `alumnos_grupo_ibfk_1` FOREIGN KEY (`alumno_id`) REFERENCES `alumnos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `alumnos_grupo_ibfk_2` FOREIGN KEY (`grupo_id`) REFERENCES `cat_grupos` (`id`),
-  ADD CONSTRAINT `alumnos_grupo_ibfk_3` FOREIGN KEY (`ciclo_id`) REFERENCES `ciclos_escolares` (`id`);
+  ADD CONSTRAINT `alumnos_grupo_ibfk_2` FOREIGN KEY (`grupo_id`) REFERENCES `cat_grupos` (`id`);
 
 --
 -- Filtros para la tabla `alumno_asistencias`
@@ -2192,26 +2192,25 @@ ALTER TABLE `cat_ciclos`
 -- Filtros para la tabla `clases_asignadas`
 --
 ALTER TABLE `clases_asignadas`
-  ADD CONSTRAINT `clases_asignadas_ibfk_1` FOREIGN KEY (`dia_id`) REFERENCES `cat_dias_semana` (`id`),
-  ADD CONSTRAINT `clases_asignadas_ibfk_2` FOREIGN KEY (`ciclo_id`) REFERENCES `ciclos_escolares` (`id`);
+  ADD CONSTRAINT `clases_asignadas_ibfk_1` FOREIGN KEY (`dia_id`) REFERENCES `cat_dias_semana` (`id`);
 
 --
 -- Filtros para la tabla `contratos`
 --
-ALTER TABLE `contratos`
-  ADD CONSTRAINT `fk_contratos_profesionistas` FOREIGN KEY (`profesionista_id`) REFERENCES `profesionistas` (`id`) ON UPDATE CASCADE;
+-- ALTER TABLE `contratos`
+  -- ADD CONSTRAINT `fk_contratos_profesionistas` FOREIGN KEY (`profesionista_id`) REFERENCES `aspirante` (`aspirante_id`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `contrato_adjuntos`
 --
-ALTER TABLE `contrato_adjuntos`
-  ADD CONSTRAINT `fk_adjuntos_contratos` FOREIGN KEY (`contrato_id`) REFERENCES `contratos` (`id`) ON UPDATE CASCADE;
+-- ALTER TABLE `contrato_adjuntos`
+  -- ADD CONSTRAINT `fk_adjuntos_contratos` FOREIGN KEY (`contrato_id`) REFERENCES `contratos` (`id`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `contrato_borradores`
 --
-ALTER TABLE `contrato_borradores`
-  ADD CONSTRAINT `fk_borrador_aspirante` FOREIGN KEY (`aspirante_id`) REFERENCES `aspirantes` (`aspirante_id`) ON DELETE CASCADE;
+-- ALTER TABLE `contrato_borradores`
+  -- ADD CONSTRAINT `fk_borrador_aspirante` FOREIGN KEY (`aspirante_id`) REFERENCES `aspirantes` (`aspirante_id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `grupos`
@@ -2256,3 +2255,5 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- DROP TABLE `alumnos_documentos`, `alumnos_grupo`, `alumno_asistencias`, `aspirantes`, `calificaciones`, `carga_academica`, `categorias`, `cat_carreras`, `cat_ciclos`, `cat_dias_semana`, `cat_estados_asistencia`, `cat_estatus_inscripcion`, `cat_estatus_registros`, `cat_estatus_usuario`, `cat_grupos`, `cat_materias`, `cat_nivel_academico`, `cat_tipos_periodo`, `cat_tipo_constancia`, `clases_asignadas`, `contratos`, `contrato_adjuntos`, `contrato_borradores`;

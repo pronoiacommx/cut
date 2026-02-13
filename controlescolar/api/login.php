@@ -1,4 +1,10 @@
 <?php
+// Agrega esto al inicio para ver el error real en la consola o en el log
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 // api/login.php
 require_once 'config.php'; // Asegúrate de que este archivo tiene session_start() y getDB()
 header('Content-Type: application/json');
