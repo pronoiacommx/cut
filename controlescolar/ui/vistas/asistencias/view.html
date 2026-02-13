@@ -1,0 +1,44 @@
+<div class="view">
+    <div class="card card-main">
+        <div class="cardHd">
+            <div class="header-info-group">
+                <div class="title-row">
+                    <h2>Pase de Lista</h2>
+                    <span class="header-divider">|</span>
+                    <div class="mini-summary">
+                        <span class="stat" title="Total"><b id="countTotal">0</b> Alumnos</span>
+                        <span class="stat asis" title="Presentes"><b>A:</b> <span id="countAsis">0</span></span>
+                        <span class="stat falt" title="Faltas"><b>F:</b> <span id="countFalt">0</span></span>
+                        <span class="stat ret" title="Retardos"><b>R:</b> <span id="countRet">0</span></span>
+                        <span class="stat just" title="Justificado"><b>J:</b> <span id="countJust">0</span></span>
+                    </div>
+                </div>
+                <p class="small text-muted" id="currentDateLabel">Cargando fecha...</p>
+            </div>
+            
+            <div class="header-actions">
+                <button id="btnGuardarPaseLista" class="btn-success">
+                    <span>💾</span> Guardar Asistencia
+                </button>
+            </div>
+        </div>
+
+        <div class="cardBd">
+            <div class="table-responsive">
+                <table class="table-full">
+                    <thead>
+                        <tr>
+                            <th>Alumno</th>
+                            <th class="text-center" width="50">A</th>
+                            <th class="text-center" width="50">F</th>
+                            <th class="text-center" width="50">R</th>
+                            <th class="text-center" width="50">J</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblAlumnosAsis">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

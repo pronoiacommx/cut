@@ -1,0 +1,168 @@
+:root {
+    --rh-red: #b00020;
+    --line: #eee;
+    --text-dark: #121521;
+    --text-gray: #666;
+    --bg-light: #fdfdfd;
+}
+
+/* Estructura Base */
+.view { padding: 20px; animation: fadeIn 0.3s ease; }
+.text-muted { color: var(--text-gray); }
+.text-center { text-align: center; }
+.hidden { display: none !important; }
+
+/* Tarjeta Estilo Expedientes */
+.card-main {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.cardHd {
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+}
+
+.btn-nuevo {
+    background: var(--rh-red);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Toolbar y Filtros */
+.cardBd { padding: 25px; }
+.stack > * + * { margin-top: 20px; }
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.search-wrapper {
+    position: relative;
+    flex: 1;
+    max-width: 400px;
+}
+
+.input-search {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+}
+
+.btnPrimary {
+    background: var(--rh-red);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Tabla de Horarios */
+.table-responsive { overflow: auto; margin-top: 10px; }
+table { width: 100%; min-width: 1000px; border-collapse: collapse; }
+table thead th {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 2px solid var(--line);
+    color: var(--text-gray);
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+table tbody td {
+    padding: 15px 12px;
+    border-bottom: 1px solid var(--line);
+    color: var(--text-dark);
+}
+
+/* Badge para el ciclo o grupos */
+.badge-cycle {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Estilo para el botón de acción en la fila */
+.btn-action-clase {
+    background: #1e293b;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Modales */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content-large {
+    background: white;
+    width: 90%;
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 15px;
+}
+
+.form-footer {
+    text-align: right;
+    padding-top: 15px;
+    margin-top: 15px;
+    border-top: 1px solid var(--line);
+}
+
+.btn-guardar {
+    background: #16a34a; /* Verde para confirmar asistencia */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}

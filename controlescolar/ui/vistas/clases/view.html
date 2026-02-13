@@ -1,0 +1,68 @@
+<div class="view">
+    <div class="card card-main">
+        <div class="cardHd">
+            <div>
+                <h2>Profesor • Control de Clases</h2>
+                <p class="small text-muted">Gestión de horarios, grupos y pase de lista</p>
+            </div>
+            <button class="btn-nuevo" onclick="location.hash='#horario_completo'">
+                🗓️ Mi Horario Completo
+            </button>
+        </div>
+
+        <div class="cardBd stack">
+            <div class="toolbar">
+                <div class="search-container">
+                    <div class="search-wrapper">
+                        <input type="text" id="searchClases" placeholder="Buscar materia o grupo..." class="input-search">
+                        <button id="btnClearClases" class="btn-clear hidden">✕</button>
+                    </div>
+                    <button id="btnSearchClases" class="btn btnPrimary">Buscar</button>
+                </div>
+
+                <div class="pagination-controls">
+                    <span class="badge-cycle">Ciclo Escolar: 2026-1</span>
+                </div>
+            </div>
+
+            <div class="small pager-text" id="pagerInfoClases">—</div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Horario</th>
+                            <th>Materia / Clave</th>
+                            <th>Grupo</th>
+                            <th>Día</th>
+                            <th>Aula</th>
+                            <th style="text-align: right;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblClases">
+                        <tr><td colspan="6" class="small text-center">Cargando horario asignado…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="hint">
+                Haz clic en “Pasar Lista” para registrar la asistencia del día de hoy. Solo se permite un registro por fecha.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalAsistencia" class="modal-overlay hidden" onclick="cerrarModalAsistencia()">
+    <div class="modal-content-large" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2 id="modalTitleAsis">Pase de Lista</h2>
+            <span class="close-modal" onclick="cerrarModalAsistencia()">&times;</span>
+        </div>
+        <div id="modalBodyAsis" class="modal-scroll-area">
+            </div>
+        <div class="form-footer">
+            <button type="button" class="btn-cancelar" onclick="cerrarModalAsistencia()">Cancelar</button>
+            <button id="btnGuardarAsistencia" class="btn-guardar">✅ Guardar Asistencia</button>
+        </div>
+    </div>
+</div>

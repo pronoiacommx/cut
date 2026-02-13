@@ -1,0 +1,36 @@
+<div class="view login-wrapper">
+  <div class="card card-login card-glow">
+    <div class="cardHd">
+      <div class="brand-center" style="width:100%; text-align:center;">
+        <div hidden class="dot" style="margin: 0 auto 10px;"></div>
+        <h2 style="font-size: 16px; margin:0;">Acceso al Sistema</h2>
+      </div>
+    </div>
+
+    <div class="cardBd">
+      <form id="loginForm" class="login-form" style="display: block;">
+        
+        <div class="field" style="margin-bottom: 15px;">
+          <label>Usuario</label>
+          <input id="rhUser" type="text" autocomplete="username" placeholder="Usuario" required />
+        </div>
+
+        <div class="field" style="margin-bottom: 5px;">
+          <label>Contraseña</label>
+          <input id="rhPass" type="password" autocomplete="current-password" placeholder="••••••••" required />
+        </div>
+
+        <div style="height: 25px; width: 100%;"></div>
+
+        <div class="login-actions" style="width: 100%; text-align: right; display: block;">
+          <button class="btn btnPrimary btn-login-final" id="btnRhLogin" type="submit" style="display: inline-block; min-width: 140px;">
+            <span>Ingresar</span>
+          </button>
+        </div>
+      </form>
+
+      <div class="divider"></div>
+      <div id="rhMsg" style="text-align:center; min-height:18px; font-size:12px;"></div>
+    </div>
+  </div>
+</div>

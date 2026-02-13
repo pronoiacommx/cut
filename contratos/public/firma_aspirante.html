@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Firma Digital de Contrato | CUT</title>
+    <link rel="stylesheet" href="../core/app.css"> 
+    <style>
+        .sign-container { max-width: 1000px; margin: 40px auto; display: grid; grid-template-columns: 1fr 350px; gap: 20px; }
+        .contract-viewer { background: white; padding: 40px; border-radius: 12px; height: 75vh; overflow-y: auto; border: 1px solid var(--line); line-height: 1.6; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .sign-panel { background: #f9f9f9; padding: 25px; border-radius: 12px; border: 1px solid var(--line); position: sticky; top: 20px; height: fit-content; }
+        #signature-pad { background: white; border: 1px solid #ced4da; width: 100%; height: 200px; border-radius: 8px; cursor: crosshair; }
+        .legal-notice { font-size: 11px; color: #666; margin-top: 15px; text-align: justify; }
+        .contract-body h2, .contract-body h3 { color: #b00020; }
+        /* Estilo para el estado cargando o firmado */
+        .full-screen-msg { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; text-align: center; }
+    </style>
+</head>
+<body style="background: #f0f2f5;">
+
+    <div class="sign-container" id="mainContainer">
+        <div class="contract-viewer" id="contractContent">
+            <div class="contract-body">
+                <h1 style="text-align:center; color: #b00020;">CONTRATO DE PRESTACIÓN DE SERVICIOS</h1>
+                <p style="text-align: center; font-weight: bold; margin-top: 50px;">CARGANDO DOCUMENTO LEGAL...</p>
+            </div>
+        </div>
+
+        <div class="sign-panel">
+            <div style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                <h3 id="aspiranteNombre" style="margin:0; color: #333;">---</h3>
+                <span style="font-size: 12px; color: #2e7d32; font-weight: bold;">EXPEDIENTE APROBADO</span>
+            </div>
+            
+            <p style="font-size: 13px; color: #444; margin-bottom: 15px;">
+                Usa tu ratón o pantalla táctil para dibujar tu firma dentro del recuadro:
+            </p>
+            
+            <canvas id="signature-pad"></canvas>
+            
+            <div style="margin-top: 15px; display: flex; gap: 10px;">
+                <button class="btn btnGhost" onclick="clearSignature()" style="flex:1">Limpiar</button>
+                <button class="btn-primary" id="btnSubmit" onclick="submitSignature()" style="flex:2; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                    Firmar Contrato
+                </button>
+            </div>
+
+            <div class="legal-notice">
+                <strong>VALIDEZ LEGAL:</strong> Al firmar, usted acepta que esta firma electrónica vincula legalmente su voluntad con el contenido del contrato adjunto, conforme a lo estipulado en el Código Civil y las leyes de firma digital vigentes.
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+  <script type="module" src="../core/api.js"></script>
+<script type="module">
+  // IMPORTAMOS CONFIG desde el archivo api.js
+  import { apiFetch, CONFIG } from '../core/api.js';
+        const API_BASE = CONFIG.DEFAULT_API // "http://localhost:8000";
+        const urlParams = new URLSearchParams(window.location.search);
+        //const token = urlParams.get('token');
+        const token = urlParams.get('token').replace(/'/g, "");
+        let signaturePad;
+
+        window.onload = async () => {
+            if (!token) {
+                showError("Enlace no válido. Por favor, revisa el correo enviado por RH.");
+                return;
+            }
+
+            // 1. Inicializar área de firma
+            const canvas = document.getElementById('signature-pad');
+            signaturePad = new SignaturePad(canvas);
+
+            // Ajustar resolución del canvas
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext("2d").scale(ratio, ratio);
+
+            // 2. Cargar información mediante el método GET unificado
+            try {
+                const res = await apiFetch(`/api/public/sign?token=${token}`);
+                //const data = await res.json();
+
+                if (!res.ok) throw new Error(data.detail || "Error al cargar");
+
+                if (res.is_signed) {
+                    showSuccess("Este contrato ya ha sido firmado correctamente.");
+                    return;
+                }
+
+                // Llenar datos del aspirante
+                document.getElementById('aspiranteNombre').textContent = res.aspirante.name;
+                
+                // Generar Contrato Dinámico con el payload
+               const c = res.contrato_data;
+                const a = res.aspirante;
+
+                const htmlLegal = `
+                <div class="contract-body" style="font-family: 'Times New Roman', serif; font-size: 12px; line-height: 1.4; color: #000; text-align: justify; padding: 40px; background: #fff;">
+                    <div style="background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; margin-bottom: 25px; color: #856404; font-size: 14px;">
+                        <strong>Nota importante:</strong> El siguiente texto es un <strong>resumen informativo</strong> de las cláusulas principales de su contrato para facilitar su lectura en dispositivos móviles. 
+                        Si desea revisar el documento legal completo con todas sus declaraciones notariales, puede descargarlo aquí: 
+                        <a href="/storage/templates/contrato_original.pdf" target="_blank" style="color: #b00020; font-weight: bold; text-decoration: underline;">Ver Contrato Original Completo (PDF)</a>.
+                    </div>
+                    <h2 style="text-align: center; font-size: 16px;">CONTRATO DE PRESTACION DE SERVICIOS PROFESIONALES INDEPENDIENTES</h2>
+                    
+                    <p>QUE CELEBRAN POR UNA PARTE <strong>CUT UNIVERSIDAD LAGUNA, SOCIEDAD CIVIL</strong>, REPRESENTADA POR ALAN HERMOSET CORTÉS FAVILA, Y POR LA OTRA PARTE EL C. <strong>${a.name}</strong>, EN ADELANTE "EL PROFESIONISTA". </p>
+
+                    <h3 style="text-align: center; font-size: 14px;">DECLARACIONES</h3>
+                    
+                    <p><strong>I. Declara "CUT UNIVERSIDAD LAGUNA":</strong></p>
+                    <ul>
+                        <li>Que es una sociedad civil constituida según escritura pública 139, tomo I, de fecha 31 de marzo de 2025, ante el Notario Luis Alberto Durán Dévora (Notaría 90). </li>
+                        <li>Que su RFC es <strong>CUL250331LH7</strong> y su domicilio legal es Calle Yucatán Número 118, Col. Las Rosas, Gómez Palacio, Durango. </li>
+                    </ul>
+
+                    <p><strong>II. Declara "EL PROFESIONISTA":</strong></p>
+                    <ul>
+                        <li>Que es una persona física de nacionalidad <strong>${c.profesionista_nacionalidad || 'MEXICANA'}</strong>, con plena capacidad legal. </li>
+                        <li>Que su domicilio fiscal es <strong>${c.profesionista_domicilio_fiscal || '_______'}</strong>, con Email <strong>${a.email}</strong> y Teléfono <strong>${c.profesionista_telefono || '_______'}</strong>. </li>
+                        <li>Que la docencia no es su fuente principal de ingresos y no depende económicamente de la universidad. </li>
+                    </ul>
+
+                    <h3 style="text-align: center; font-size: 14px;">CLAUSULAS</h3>
+                    
+                    <p><strong>PRIMERA:</strong> "EL PROFESIONISTA" prestará servicios para la carrera de <strong>${c.servicio_carrera || '_______'}</strong>, impartiendo la materia <strong>${c.servicio_materia || '_______'}</strong>, por el periodo de <strong>${c.servicio_periodo || '_______'}</strong>. </p>
+
+                    <p><strong>SEGUNDA:</strong> Prestará el servicio utilizando sus propios conocimientos técnicos sin estar sujeto a subordinación jurídica. </p>
+
+                    <p><strong>TERCERA:</strong> Autoriza el tratamiento de sus datos personales y sensibles de conformidad con la Ley Federal de Protección de Datos Personales. </p>
+
+                    <p><strong>CUARTA:</strong> Se obliga a guardar estricta confidencialidad sobre planes de estudios, guías y datos personales de alumnos por un periodo de 5 años. </p>
+
+                    <p><strong>QUINTA:</strong> Autoriza de forma gratuita el uso de su imagen (audio/video) para fines de difusión académica de la institución.</p>
+
+                    <p><strong>SEXTA:</strong> Declara que sus ingresos en este ejercicio no representan más del 50% del total de sus ingresos obtenidos.</p>
+
+                    <p><strong>SÉPTIMA:</strong> La universidad pagará la cantidad de <strong>$${c.pago_total_semestre || '0.00'}</strong> (<strong>${c.pago_total_letra || '_______'}</strong>).</p>
+
+                    <p><strong>OCTAVA:</strong> La vigencia es exclusivamente la precisada en la cláusula primera.</p>
+
+                    <p><strong>NOVENA:</strong> La universidad podrá rescindir el contrato sin responsabilidad en caso de incumplimiento con aviso de 5 días.</p>
+
+                    <p><strong>DÉCIMO PRIMERA:</strong> Ambas partes se someten al Código Civil del Estado de Coahuila (Art. 2486 al 2495).</p>
+
+                    <p><strong>DÉCIMO SEGUNDA:</strong> Para cualquier controversia, se someten a la jurisdicción de Gómez Palacio, Durango.</p>
+
+                    <p><strong>DÉCIMO TERCERA (CONTRATACIÓN ELECTRÓNICA):</strong> Las partes acuerdan que el uso de firmas electrónicas y registros digitales tendrá la misma fuerza y consecuencias que la firma autógrafa física, conforme a la NOM-151-SCFI-2016.</p>
+
+                    <div style="margin-top: 40px;">
+                        <p>Leído el presente, se firma en Gómez Palacio, Durango, el día <strong>${new Date().toLocaleDateString()}</strong>.</p>
+                    </div>
+                </div>
+                `;
+                                
+                document.getElementById('contractContent').innerHTML = htmlLegal;
+                // Dentro de window.onload, después de cargar el contrato:
+                const viewer = document.getElementById('contractContent');
+                const btnSubmit = document.getElementById('btnSubmit');
+                // Deshabilitar al inicio
+                btnSubmit.disabled = true;
+                btnSubmit.style.opacity = "0.5";
+                btnSubmit.innerText = "Lee todo el contrato para firmar";
+
+                viewer.onscroll = function() {
+                    // Verificamos si el scroll llegó al fondo (con un margen de 20px)
+                    if (viewer.scrollHeight - viewer.scrollTop <= viewer.clientHeight + 20) {
+                        btnSubmit.disabled = false;
+                        btnSubmit.style.opacity = "1";
+                        btnSubmit.innerText = "Firmar Contrato";
+                    }
+                };
+            } catch (e) {
+                showError("No se pudo cargar el contrato: " + e.message);
+            }
+        };
+
+        window.clearSignature = function () { signaturePad.clear(); }
+
+        window.submitSignature = async function () {
+            debugger;
+            if (signaturePad.isEmpty()) {
+                alert("Por favor, dibuje su firma antes de continuar.");
+                return;
+            }
+
+            const btn = document.getElementById('btnSubmit');
+            btn.disabled = true;
+            btn.textContent = "Procesando...";
+
+            // Extraer Base64 puro (sin el prefijo de data:image/png...)
+            const signatureBase64 = signaturePad.toDataURL().split(',')[1];
+
+            try {
+                // Llamada al método POST integrado
+                const res = await apiFetch(`/api/public/sign/submit?token=${token}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ signature_png: signatureBase64 })
+                });
+
+                const result = await res.json();
+
+                if (res.ok) {
+                    showSuccess("¡Firma registrada con éxito! Bienvenido a CUT.");
+                } else {
+                    alert("Error: " + (result.detail || "No se pudo registrar la firma"));
+                    btn.disabled = false;
+                    btn.textContent = "Firmar Contrato";
+                }
+            } catch (e) {
+                alert("Error de conexión con el servidor.");
+                btn.disabled = false;
+                btn.textContent = "Firmar Contrato";
+            }
+        }
+
+        function showSuccess(msg) {
+            document.getElementById('mainContainer').innerHTML = `
+                <div class="full-screen-msg">
+                    <div style="font-size: 60px;">✅</div>
+                    <h2 style="color: #2e7d32;">${msg}</h2>
+                    <p>Puede cerrar esta ventana ahora.</p>
+                </div>`;
+        }
+        function showError(msg) {
+            document.getElementById('mainContainer').innerHTML = `
+                <div class="full-screen-msg">
+                    <div style="font-size: 60px;">❌</div>
+                    <h2 style="color: #b00020;">${msg}</h2>
+                </div>`;
+        }
+    </script>
+</body>
+</html>

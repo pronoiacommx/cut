@@ -4,111 +4,88 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>CUT • Sistema</title>
-
-  <!-- Global theme + layout -->
   <link rel="stylesheet" href="./core/theme.css">
   <link rel="stylesheet" href="./core/app.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
 <header class="topbar">
   <div class="brand">
+    <button id="toggleSidebar" class="btn-toggle"><span>☰</span></button>
     <div class="dot"></div>
-    <div>
-      <h1>CUT • Sistema</h1>
-      <div class="sub">Módulos: Contratos, Expedientes, Catálogos y Config (Tema CUT Minimal Glass).</div>
-    </div>
+    <h1>CUT • Sistema</h1>
   </div>
 
-  <div class="pill">
-    <span>API:</span>
-    <span class="mono" id="apiBaseLabel">DESARROLLO</span>
+  <div class="user-menu-container">
+    <div class="user-info-top" id="avatarTrigger">
+      <div class="text-right">
+        <span class="user-name" id="topUserName"></span>
+        <span class="user-role" id="topUserRole"></span>
+      </div>
+      <div class="user-avatar" id="topAvatar">CUT</div>
+      <div class="status-indicator"></div>
+    </div>
+    
+    <div class="user-dropdown" id="userDropdown">
+      <div class="dropdown-header">
+        <div class="user-avatar-big" id="dropAvatar">U</div>
+        <b id="dropUserName">Usuario</b>
+        <span id="dropUserEmail">correo@ejemplo.com</span>
+      </div>
+      <div style="padding: 10px;">
+        <button class="dropdown-item" id="btnLogout">
+          <span class="ico-small">🚪</span> Cerrar Sesión
+        </button>
+      </div>
+    </div>
   </div>
 </header>
 
 <div class="appShell">
+  <aside class="side" id="mainSidebar">
+    <div class="nav" id="navContainer"></div>
 
-  <!-- SIDEBAR -->
-  <aside class="card side">
-    <div class="sideTop">
-      <div class="sideTitle">
-        <b>Menú</b>
-        <span class="mono" id="whoami">CUT Minimal Glass</span>
-      </div>
-      <span class="badge" id="statusBadge">Listo</span>
-    </div>
-
-    <div class="nav">
-      <button class="navBtn active" data-route="contratos" type="button">
-        <div class="navLeft">
-          <div class="ico">C</div>
-          <div class="navTxt">
-            <b>Contratos</b>
-            <span>Alta + generar PDF</span>
-          </div>
-        </div>
-        <div class="chev">›</div>
-      </button>
-
-      <button class="navBtn" data-route="expedientes" type="button">
-        <div class="navLeft">
-          <div class="ico">E</div>
-          <div class="navTxt">
-            <b>Expedientes</b>
-            <span>Buscar y abrir Drive</span>
-          </div>
-        </div>
-        <div class="chev">›</div>
-      </button>
-
-      <button class="navBtn" data-route="catalogos" type="button">
-        <div class="navLeft">
-          <div class="ico">K</div>
-          <div class="navTxt">
-            <b>Catálogos</b>
-            <span>Carreras, materias, categorías</span>
-          </div>
-        </div>
-        <div class="chev">›</div>
-      </button>
-
-      <button class="navBtn" data-route="config" type="button">
-        <div class="navLeft">
-          <div class="ico">⚙</div>
-          <div class="navTxt">
-            <b>Config</b>
-            <span>Base URL API</span>
-          </div>
-        </div>
-        <div class="chev">›</div>
-      </button>
+    <div class="sideFooter">
+      <span id="toastGlobal" class="badge-status" style="transition: all 0.3s ease;">
+        SISTEMA ONLINE
+      </span>
     </div>
   </aside>
 
-  <!-- CONTENT -->
-  <section class="stack">
-    <!-- Aquí se inyecta el módulo actual -->
+  <main class="stack">
     <div id="viewHost"></div>
-  </section>
+  </main>
 </div>
 
-<!-- Global modals/overlays -->
-<div id="loader" class="loader hidden" role="dialog" aria-modal="true" aria-label="Procesando">
+<div id="loader" class="loader hidden">
   <div class="loaderBox">
     <div class="spinner"></div>
-    <div id="loaderTitle">Procesando…</div>
-    <div id="loaderMsg">Por favor espera</div>
-
-    <div class="progressWrap" aria-label="Progreso">
-      <div class="progressBar" id="progressBar"></div>
-    </div>
-    <div class="progressText" id="progressText">0%</div>
+    <div style="font-weight:900" id="loaderTitle">Procesando…</div>
+    <div class="small" id="loaderMsg">Por favor espera</div>
   </div>
 </div>
-
-<div id="toastGlobal" class="toast globalToast"></div>
-
-<!-- App bootstrap -->
+<div id="errorScreen" class="error-screen hidden">
+  <div class="error-card">
+    <div id="errorIcon" class="error-icon">🚫</div>
+    <h2 id="errorTitle" class="error-title">Error</h2>
+    <p id="errorText" class="error-text">Mensaje de error.</p>
+    <div id="errorAction">
+       <button onclick="document.getElementById('errorScreen').classList.add('hidden')" class="btn btnPrimary">Entendido</button>
+    </div>
+  </div>
+</div>
+  <div id="confirmDialog" class="error-screen hidden">
+    <div class="error-card" style="border-top: 5px solid #0288d1;">
+      <div id="confirmIcon" class="error-icon">📧</div>
+      <h2 id="confirmTitle" class="error-title">¿Estás seguro?</h2>
+      <p id="confirmText" class="error-text">Esta acción enviará un correo electrónico.</p>
+      <div id="confirmActions" style="display: flex; gap: 10px; justify-content: center;">
+        <button id="btnConfirmCancel" class="btn btnGhost">Cancelar</button>
+        <button id="btnConfirmOk" class="btn btnPrimary">Confirmar</button>
+      </div>
+    </div>
+  </div>
 <script type="module" src="./core/app.js"></script>
 </body>
 </html>

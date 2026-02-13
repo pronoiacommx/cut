@@ -1,0 +1,1034 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CUT • Contrato (Captura)</title>
+
+  <style>
+  /* ====== TEMA CUT Minimal Glass (claro) ====== */
+  :root{
+    --bg:#f6f7fb;
+    --panel:#ffffff;
+    --panel2:#f1f3f7;
+    --text:#121521;
+    --muted:#5f667a;
+    --line:rgba(18,21,33,.10);
+
+    --accent:#b00020;
+    --accent2:#e53935;
+
+    --shadow: 0 12px 28px rgba(18,21,33,.10);
+    --radius:16px;
+    --max: 980px;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+    --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--text);
+    min-height:100vh;
+    background:
+      radial-gradient(900px 520px at 12% -10%, rgba(176,0,32,.10), transparent 55%),
+      radial-gradient(700px 500px at 95% 0%, rgba(229,57,53,.08), transparent 60%),
+      linear-gradient(180deg, var(--bg), #ffffff);
+  }
+
+  header{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:26px 18px 0;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:14px;
+  }
+  .brand{display:flex; gap:12px; align-items:center;}
+  .dot{
+    width:12px;height:12px;border-radius:50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    box-shadow: 0 0 0 7px rgba(176,0,32,.10);
+  }
+  h1{margin:0;font-size:18px;letter-spacing:.2px}
+  .sub{margin:6px 0 0;color:var(--muted);font-size:13px;max-width:720px}
+  
+  .pill{
+    border:1px solid var(--line);
+    background: rgba(255,255,255,.75);
+    padding:8px 10px;border-radius:999px;
+    color:var(--muted);font-size:12px;
+    display:flex; gap:8px; align-items:center;
+    box-shadow: 0 6px 16px rgba(18,21,33,.06);
+  }
+  .mono{font-family:var(--mono)}
+
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:18px;
+  }
+
+  /* Cards */
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,.96));
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow: var(--shadow);
+    overflow:hidden;
+    transition: all 0.3s ease;
+  }
+  .cardHd{
+    padding:14px 16px;
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background: linear-gradient(180deg, rgba(245,246,250,1), rgba(255,255,255,1));
+  }
+  .cardHd h2{margin:0;font-size:14px;letter-spacing:.2px;}
+  .cardBd{padding:16px}
+
+  .badge{
+    font-size:12px;
+    padding:6px 10px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background: rgba(245,246,250,1);
+    color: var(--muted);
+  }
+
+  .grid{display:grid;grid-template-columns: 1fr 1fr;gap:12px;}
+  @media (max-width: 720px){ .grid{grid-template-columns:1fr} }
+  
+  label{display:block;font-size:12px;color:var(--muted);margin:2px 0 6px}
+  input, select, textarea{
+    width:100%;
+    padding:10px 11px;
+    border-radius:12px;
+    border:1px solid rgba(18,21,33,.14);
+    background: #fff;
+    color: var(--text);
+    outline:none;
+    box-shadow: 0 1px 0 rgba(18,21,33,.04);
+  }
+  input[readonly]{
+    background: rgba(245,246,250,1);
+    color: rgba(18,21,33,.78);
+  }
+  input:focus, select:focus, textarea:focus{
+    border-color: rgba(176,0,32,.45);
+    box-shadow: 0 0 0 4px rgba(176,0,32,.12);
+  }
+  textarea{min-height:90px;resize:vertical}
+
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .stack{display:flex;flex-direction:column;gap:10px}
+  .divider{height:1px;background:var(--line);margin:10px 0}
+  .hint{font-size:12px;color:var(--muted);line-height:1.35}
+  .small{font-size:12px;color:var(--muted)}
+  a{color: var(--accent2); text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* Botones */
+  .btn{
+    appearance:none;
+    border:1px solid rgba(18,21,33,.14);
+    background: #fff;
+    color: var(--text);
+    padding:10px 12px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:.12s transform, .12s background, .12s border-color, .12s box-shadow;
+    font-weight:800;
+    letter-spacing:.2px;
+    box-shadow: 0 10px 18px rgba(18,21,33,.06);
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex; justify-content: center; align-items: center;
+  }
+  .btn:hover{
+    transform: translateY(-1px);
+    border-color: rgba(18,21,33,.22);
+    background: rgba(245,246,250,1);
+    text-decoration: none;
+  }
+  .btnPrimary{
+    border-color: rgba(176,0,32,.45);
+    background: linear-gradient(135deg, rgba(176,0,32,.92), rgba(229,57,53,.88));
+    color:#fff;
+    box-shadow: 0 12px 24px rgba(176,0,32,.18);
+  }
+  .btnPrimary:hover{
+    border-color: rgba(229,57,53,.65);
+    box-shadow: 0 14px 28px rgba(176,0,32,.22);
+    background: linear-gradient(135deg, rgba(176,0,32,.98), rgba(229,57,53,.92));
+  }
+  .btnGhost{background: transparent;border-color: rgba(18,21,33,.16);color: var(--muted);box-shadow:none;}
+  
+  .file{
+    border:1px dashed rgba(18,21,33,.22);
+    background: rgba(245,246,250,1);
+    border-radius:12px;
+    padding:10px 12px;
+  }
+
+  /* .toast{
+    border:1px solid var(--line);
+    background: rgba(255,255,255,.88);
+    border-radius:12px;
+    padding:10px 12px;
+    font-size:12px;
+    color:var(--muted);
+    display:none;
+    box-shadow: 0 10px 22px rgba(18,21,33,.10);
+    position: fixed; bottom: 20px; right: 20px; z-index: 1000;
+  }
+  .toast.show{display:block; animation: slideIn 0.3s ease-out;}
+  @keyframes slideIn { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } } */
+
+  /* ===== Wizard ===== */
+  .stepper{
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+  }
+  .step{
+    display:flex; align-items:center; gap:8px;
+    padding:8px 10px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background: rgba(245,246,250,1);
+    color: var(--muted);
+    font-size:12px;
+    font-weight:900;
+  }
+  .step .n{
+    width:22px;height:22px;border-radius:999px;
+    display:grid;place-items:center;
+    color:#fff;
+    background: rgba(18,21,33,.25);
+    font-size:12px;
+  }
+  .step.active{
+    border-color: rgba(176,0,32,.28);
+    background: rgba(176,0,32,.06);
+    color: var(--text);
+  }
+  .step.active .n{
+    background: linear-gradient(135deg, rgba(176,0,32,.92), rgba(229,57,53,.88));
+  }
+  .step.done{
+    border-color: rgba(46,125,50,.25);
+    background: rgba(46,125,50,.06);
+    color: #2e7d32;
+  }
+  .step.done .n{ background: rgba(46,125,50,.82); }
+
+  .stage{display:none}
+  .stage.active{display:block}
+
+  .footerActions{
+    display:flex; gap:10px; flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:20px;
+  }
+  .footerRight{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;}
+
+  /* ===== REVIEW UI ===== */
+  .review-section { margin-bottom: 24px; }
+  .review-title { 
+    font-size: 13px; font-weight: 800; color: var(--accent); 
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;
+    border-bottom: 1px solid var(--line); padding-bottom: 6px;
+  }
+  .review-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .review-item { display: flex; flex-direction: column; gap: 4px; }
+  .review-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform:uppercase;}
+  .review-val { font-size: 13px; color: var(--text); font-weight: 500; word-break: break-word;}
+  
+  .file-check { 
+    display:flex; align-items:center; gap:8px; font-size:13px; 
+    padding:8px; background:var(--panel2); border-radius:8px;
+    border: 1px solid transparent;
+  }
+  .file-check.missing { color: var(--accent); background: rgba(176,0,32,0.05); border-color: rgba(176,0,32,0.1); }
+
+  /* ===== PANTALLA ÉXITO ===== */
+  .success-box {
+    text-align: center; padding: 40px 20px; display: none;
+    flex-direction: column; align-items: center; gap: 16px;
+    animation: fadeIn 0.5s ease;
+  }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+  .success-icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: #e8f5e9; color: #2e7d32;
+    display: grid; place-items: center; font-size: 32px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(46,125,50,0.2);
+  }
+  .success-title { font-size: 20px; font-weight: 800; color: var(--text); margin: 0; }
+  .success-msg { font-size: 14px; color: var(--muted); max-width: 480px; line-height: 1.6; }
+
+  /* ===== PANTALLA ERROR (GUID INVÁLIDO) ===== */
+  .error-screen {
+    position: fixed; inset: 0; z-index: 11000;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .error-screen.hidden { display: none; }
+  .error-card {
+    background: #fff;
+    padding: 40px; border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    max-width: 480px; width: 100%;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .error-icon {
+    font-size: 40px; color: var(--accent);
+    margin-bottom: 16px; display: block;
+  }
+  .error-title {
+    font-size: 20px; font-weight: 800; color: var(--text);
+    margin: 0 0 12px 0;
+  }
+  .error-text {
+    font-size: 14px; color: var(--muted); line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  </style>
+  <link rel="stylesheet" href="../core/app.css">
+</head>
+
+<body>
+<div id="main-wrapper">
+<header>
+  <div class="brand">
+    <div class="dot"></div>
+    <div>
+      <h1>CUT • Captura de contrato</h1>
+      <div class="sub">Completa tu información. Puedes guardar avance y retomar después.</div>
+    </div>
+  </div>
+  <div hidden class="pill">
+    <span hidden>GUID:</span>
+    <span hidden class="mono" id="guidLbl">—</span>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <div hidden  class="cardHd">
+      <h2 hidden >Etapas</h2>
+      <div  hidden class="row">
+        <span hidden  class="badge" id="saveState">Sin guardar</span>
+      </div>
+    </div>
+
+    <div class="cardBd stack">
+
+      <div class="stepper" id="stepper">
+        <div class="step active" data-step="1"><span class="n">1</span>Datos</div>
+        <div class="step" data-step="2"><span class="n">2</span>Servicio/Pago</div>
+        <div class="step" data-step="3"><span class="n">3</span>Anexos</div>
+        <div class="step" data-step="4"><span class="n">4</span>Revisión</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <form id="frm" class="stack" enctype="multipart/form-data">
+        <input type="hidden" name="guid" id="guidHidden" />
+
+        <div class="stage active" data-stage="1">
+          <div class="hint">Estos campos se llenan con tu invitación (GUID).</div>
+          <div class="divider"></div>
+          <div class="grid">
+            <div style="grid-column:1/-1">
+              <label>Nombre completo</label>
+              <input name="profesionista_nombre" id="nombreCompleto" readonly />
+            </div>
+            <div>
+              <label>Email</label>
+              <input name="profesionista_email" id="email" readonly />
+            </div>
+            <div>
+              <label>Nacionalidad</label>
+              <input name="profesionista_nacionalidad" value="Mexicana" />
+            </div>
+            <div>
+              <label>RFC</label>
+              <input name="profesionista_rfc" required placeholder="Ej. PELJ900101ABC" />
+            </div>
+            <div>
+              <label>CURP</label>
+              <input name="profesionista_curp" required placeholder="Ej. PELJ900101HDFRPN01" />
+            </div>
+            <div>
+              <label>Teléfono</label>
+              <input name="profesionista_telefono" required placeholder="10 dígitos" />
+            </div>
+            <div style="grid-column:1/-1">
+              <label>Domicilio fiscal</label>
+              <textarea name="profesionista_domicilio_fiscal" required placeholder="Calle, número, colonia, municipio, estado, C.P."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="stage" data-stage="2">
+          <div class="hint">Captura los datos del servicio y pago.</div>
+          <div class="divider"></div>
+          <div class="grid">
+            <div><label>Periodo / Ciclo</label><input name="servicio_periodo" required placeholder="Ej. Otoño 2025" /></div>
+            <div><label>Departamento / Carrera</label><input name="servicio_carrera" required placeholder="Ej. Licenciatura en Derecho" /></div>
+            <div><label>Materia</label><input name="servicio_materia" required placeholder="Ej. Derecho Mercantil" /></div>
+            <div><label>Categoría</label><input name="servicio_categoria" placeholder="Ej. Profesionista A" /></div>
+            <div><label>Horas (semestre)</label><input name="pago_horas" type="number" min="0" step="1" /></div>
+            <div><label>Importe por hora (MXN)</label><input name="pago_por_hora" type="number" min="0" step="0.01" /></div>
+            <div><label>Total semestre (MXN)</label><input name="pago_total_semestre" type="number" min="0" step="0.01" /></div>
+            <div><label>Monto en letra (opcional)</label><input name="pago_total_letra" placeholder='Ej. "Quince mil..."' /></div>
+          </div>
+        </div>
+
+        <!-- <div class="stage" data-stage="3">
+          <div class="hint">Sube tus anexos.</div>
+          <div class="divider"></div>
+          <div class="grid">
+            <div class="file"><label>INE (frente)</label><input type="file" name="file_ine_frente" accept=".pdf,image/*" required /></div>
+            <div class="file"><label>INE (vuelta)</label><input type="file" name="file_ine_vuelta" accept=".pdf,image/*" /></div>
+            <div class="file"><label>Comprobante de domicilio</label><input type="file" name="file_comprobante" accept=".pdf,image/*" required /></div>
+            <div class="file"><label>CURP (archivo)</label><input type="file" name="file_curp" accept=".pdf,image/*" required /></div>
+            <div class="file" style="grid-column:1/-1"><label>Constancia fiscal (SAT)</label><input type="file" name="file_constancia_fiscal" accept=".pdf,image/*" /></div>
+          </div>
+        </div> -->
+        <div class="stage" data-stage="3">
+          <div class="hint">Sube tus anexos. Si ya subiste un archivo, aparecerá una vista previa abajo.</div>
+          <div class="divider"></div>
+          <div class="grid" id="filesGrid">
+            </div>
+        </div>
+
+        <div class="stage" data-stage="4">
+          <div id="reviewContainer">
+            <div hidden class="hint">Tu información se encuentra en validación, te informaremos por correo a la brevedad.</div>
+            <div hidden class="divider"></div>
+            <div id="reviewBox"></div>
+          </div>
+
+          <div id="successBox" class="success-box">
+            <div class="success-icon">✓</div>
+            <h3 class="success-title">¡Información enviada!</h3>
+            <p class="success-msg">
+              Hemos recibido tus datos. <strong>Recursos Humanos validará tu expediente.</strong><br>
+              Si todo está en orden, recibirás un correo de bienvenida.
+            </p>
+            <div class="divider" style="width:100%; max-width:200px; margin:20px 0"></div>
+            <div class="small" style="opacity:0.8">
+              <p>Tu borrador se ha guardado:</p>
+              <div class="row" style="justify-content:center">
+                <a id="docxLink" href="#" target="_blank" style="display:none">Descargar DOCX</a>
+                <span id="sepLinks" style="display:none">•</span>
+                <a id="pdfLink" href="#" target="_blank" style="display:none">Descargar PDF</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footerActions">
+          <div class="row"><!-- <button class="btn btnGhost" type="button" id="btnPrev">← Atrás</button>--></div> 
+          <div class="footerRight">
+            <!-- <button class="btn" type="button" id="btnSave">Guardar avance</button> -->
+            <button class="btn btnGhost" type="button" id="btnNext">Siguiente →</button>
+            <!-- <button class="btn btnPrimary" type="button" id="btnFinish" style="display:none">Finalizar y Enviar</button> -->
+          </div>
+        </div>
+        <!-- <div id="toast" class="toast"></div> -->
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div id="employeeWelcomeBox" class="success-box" style="display:none; border: 2px solid #2e7d32; background: rgba(46,125,50,0.02); border-radius: 16px;">
+    <div class="success-icon" style="background:#2e7d32; color:#fff">✓</div>
+    <h3 class="success-title">¡Bienvenido a la Familia CUT!</h3>
+    <p class="success-msg">
+        Tu proceso de contratación ha finalizado con éxito. 
+        <strong>Ya te encuentras registrado como empleado oficial.</strong>
+    </p>
+    <div class="divider" style="width:100%; max-width:200px; margin:20px 0"></div>
+    <p class="small">
+        Revisa tu correo electrónico, te hemos enviado tus <strong>credenciales de acceso</strong> 
+        para entrar al portal institucional.
+    </p>
+    <a href="http://localhost/cut/contratos/#login" class="btn btnPrimary">Ir al Inicio de Sesión</a>
+</div>
+<div id="validationBox" class="error-screen" style="display:none;">
+    <div class="error-card" style="border-top: 6px solid #b00020; max-width: 500px;">
+        <div class="spinner" style="border-top-color: #b00020; width: 50px; height: 50px;"></div>
+        
+        <h2 class="error-title" style="color: #b00020;">Expediente en Validación</h2>
+        
+        <p class="error-text">
+            ¡Excelente! Tu documentación ha sido enviada correctamente.<br><br>
+            Actualmente, el equipo de <strong>Recursos Humanos</strong> está revisando tu información. Te notificaremos vía correo electrónico cuando el proceso avance.
+        </p>
+
+        <div style="background: #f1f8e9; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 13px; color: #33691e;">
+            <strong>Estado:</strong> Revisión de documentos inicial.
+        </div>
+        
+        <div id="errorAction" style="display: flex; flex-direction: column; gap: 10px;">
+            <a href="https://www.trilingue.mx/" class="btn btnPrimary" style="background: #b00020; text-decoration: none; color: white; padding: 12px; border-radius: 8px; font-weight: bold;">
+                Ir al sitio principal CUT
+            </a>
+            <button onclick="window.close();" class="btn btnGhost" style="background: transparent; border: none; color: #666; cursor: pointer; font-size: 12px;">
+                Cerrar esta ventana
+            </button>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script type="module" src="../core/api.js"></script>
+<script type="module" src="../core/ui.js"></script>
+<script type="module">
+  // IMPORTAMOS CONFIG desde el archivo api.js
+  import { apiFetch, CONFIG } from '../core/api.js';
+  import { $, toast, setStatus, showLoader, hideLoader, showErrorPopup } from "../core/ui.js";
+
+(() => {
+
+  window.currentAttachments = {};
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+  //const API_BASE = "http://localhost:8000";
+  
+        const API_BASE = CONFIG.API_BASE;   
+        const URL_BASE = CONFIG.URL_BASE;   
+
+        console.log("Conectando a API:", API_BASE); // Verifica que no diga undefined en consola
+  const guid = new URLSearchParams(location.search).get("guid") || "";
+  $("#guidLbl").textContent = guid || "SIN_GUID";
+  $("#guidHidden").value = guid;
+ 
+  const saveState = $("#saveState");
+  const toastEl = $("#toast");
+
+  // --- NUEVO: Selectores para el cálculo ---
+  const inputHoras = $('input[name="pago_horas"]');
+  const inputPrecioHora = $('input[name="pago_por_hora"]');
+  const inputTotal = $('input[name="pago_total_semestre"]');
+
+  // --- NUEVO: Función de cálculo automático ---
+  function calcularTotal() {
+    const horas = parseFloat(inputHoras.value) || 0;
+    const precio = parseFloat(inputPrecioHora.value) || 0;
+    const total = horas * precio;
+    inputTotal.value = total.toFixed(2);
+    // Disparamos el evento input manualmente para que el autosave detecte el cambio
+    inputTotal.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  inputHoras.addEventListener('input', calcularTotal);
+  inputPrecioHora.addEventListener('input', calcularTotal);
+
+  // function toast(msg, kind="info") {
+  //   toastEl.textContent = msg;
+  //   toastEl.classList.add("show");
+  //   toastEl.style.borderColor = kind==="ok"?"#2e7d32":kind==="err"?"#c62828":"#ccc";
+  //   setTimeout(() => toastEl.classList.remove("show"), 4500);
+  // }
+
+  function showFatalError() {
+    $("#errorScreen").classList.remove("hidden");
+    $(".wrap").style.display = "none";
+    hideLoader();
+  }
+
+
+  // ===== Wizard Logic =====
+  let step = 1;
+  let lastSavedHash = "";
+  let autosaveTimer = null;
+  let autosaveInFlight = false;
+
+  const frm = $("#frm");
+
+  function setStep(n) {
+    step = Math.max(1, Math.min(4, n));
+    $$(".stage").forEach(s => s.classList.remove("active"));
+    $(`.stage[data-stage="${step}"]`).classList.add("active");
+    $$(".step").forEach(x => {
+      x.classList.remove("active");
+      if (Number(x.dataset.step) === step) x.classList.add("active");
+      x.classList.toggle("done", Number(x.dataset.step) < step);
+    });
+
+    // $("#btnPrev").style.display = (step === 1 || step === 4) ? "none" : "inline-flex";
+    // $("#btnSave").style.display = (step === 4) ? "none" : "inline-flex";
+    $("#btnNext").style.display = (step === 4) ? "none" : "inline-flex";
+    // $("#btnFinish").style.display = (step === 4) ? "inline-flex" : "none";
+if (step === 3) renderFileStep();
+    if (step === 4) buildReview();
+  }
+
+  function getDraftPayload() {
+    const payload = {};
+    const els = $$("input, select, textarea", frm);
+    els.forEach(el => {
+      if (!el.name || el.type === "file") return;
+      payload[el.name] = el.value ?? "";
+    });
+    // Guardamos el step actual para retomar donde se quedó
+    payload.__meta = { step: step, client_ts: new Date().toISOString() };
+    return payload;
+  }
+
+  function stableHash(obj) {
+    const s = JSON.stringify(obj, Object.keys(obj).sort());
+    let h = 0;
+    for (let i=0;i<s.length;i++) h = ((h<<5)-h) + s.charCodeAt(i) | 0;
+    return String(h);
+  }
+
+  async function saveDraft(manual=false) {
+    if (!guid) return; 
+    if (autosaveInFlight) return;
+    debugger;
+    const payload = getDraftPayload();
+    const h = stableHash(payload);
+    if (!manual && h === lastSavedHash) return;
+
+    autosaveInFlight = true;
+    saveState.textContent = "Guardando...";
+    try {
+      await apiFetch(`/api/public/contract?guid=${encodeURIComponent(guid)}`, {
+        method: "PUT",
+        headers: { "Content-Type":"application/json" },
+        body: JSON.stringify({ payload })
+      });
+      lastSavedHash = h;
+      saveState.textContent = "Guardado ✓";
+      saveState.style.color = "#2e7d32";
+      hideLoader();
+      if (manual) toast("Avance guardado ✅", "ok");
+    } catch (e) {
+      saveState.textContent = "Error al guardar";
+      saveState.style.color = "#c62828";
+      showErrorPopup("Error al guardar información", e.message);
+      if (manual) toast("No se pudo guardar", "err");
+    } finally {
+      autosaveInFlight = false;
+    }
+  }
+
+  // --- EVENTOS ---
+  frm.addEventListener("input", (e) => {
+    if (e.target.type !== "file") {
+      saveState.textContent = "Cambios sin guardar";
+      saveState.style.color = "#b00020";
+      clearTimeout(autosaveTimer);
+      autosaveTimer = setTimeout(() => saveDraft(false), 1200);
+    }
+  });
+
+
+  // --- ACTUALIZADO: Botón Siguiente ---
+  $("#btnNext").addEventListener("click", async () => {
+
+    showLoader("Guardando...", "Espere por favor");
+
+    if (!validateStage()) return;
+    
+    if (step < 4) {
+      // 1. Mostramos visualmente que estamos procesando
+      saveState.textContent = "Guardando etapa...";
+      // Si estamos en el paso 3 y vamos al 4 (Revisión)
+        if (step === 3) {
+            try {
+                // Enviamos la señal al servidor de que ya se completaron los documentos
+                await fetch(`${API_BASE}/api/public/contract/complete-step?guid=${guid}&step=4&status=COMPLETADO`, {
+                    method: 'PUT'
+                });
+                hideLoader();
+                toast("Documentación enviada a RH", "ok");
+            } catch (e) {
+                console.error("No se pudo notificar a RH", e);
+            }
+        }
+
+      // 2. Incrementamos el paso ANTES de guardar para que el payload lleve el nuevo step
+      step++; 
+      
+      // 3. Forzamos el guardado manual para asegurar que la DB sepa que ya estamos en el siguiente paso
+      await saveDraft(true); 
+      
+      // 4. Cambiamos la vista
+      setStep(step);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+
+  function validateStage() {
+    const req = $$(`.stage[data-stage="${step}"] [required]`);
+    for (const el of req) {
+      if (el.type === "file") continue;
+      if (!el.value.trim()) {
+        el.focus(); toast("Completa los campos obligatorios", "err"); return false;
+      }
+    }
+    return true;
+  }
+
+  function escapeHtml(s) {
+    return s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+  }
+
+  function buildReview() {
+    const box = $("#reviewBox");
+    const p = getDraftPayload();
+    const item = (l, v) => `<div class="review-item"><span class="review-label">${l}</span><span class="review-val">${escapeHtml(String(v||"—"))}</span></div>`;
+    
+    let h = `<div class="review-section"><div class="review-title">Personales</div><div class="review-grid">
+      ${item("Nombre", p.profesionista_nombre)}${item("Email", p.profesionista_email)}
+      ${item("RFC", p.profesionista_rfc)}${item("CURP", p.profesionista_curp)}
+      ${item("Teléfono", p.profesionista_telefono)}
+    </div></div>`;
+
+    h += `<div class="review-section"><div class="review-title">Servicio y Pago</div><div class="review-grid">
+      ${item("Periodo", p.servicio_periodo)}${item("Materia", p.servicio_materia)}
+      ${item("Carrera", p.servicio_carrera)}${item("Horas", p.pago_horas)}
+      ${item("Pago Hora", p.pago_por_hora)}${item("Total", p.pago_total_semestre)}
+    </div></div>`;
+
+    const files = [
+      {id:"file_ine_frente",l:"INE Frente"},
+      {id:"file_ine_vuelta",l:"INE Vuelta"},
+      {id:"file_comprobante",l:"Comprobante"},
+      {id:"file_curp",l:"CURP"},
+      {id:"file_constancia_fiscal",l:"Constancia"}
+    ];
+    let fh = "";
+  files.forEach(f => {
+    // window.currentAttachments debe ser llenado en loadPrefill con los datos de la BD
+    const serverPath = window.currentAttachments?.[f.id]; 
+    const ok = !!serverPath;
+    
+    let previewHtml = "";
+    if (ok) {
+      // serverPath ya trae "storage/uploads/..." desde la BD
+      const fullUrl = `${URL_BASE}/${serverPath}`; 
+      const isImg = serverPath.match(/\.(jpeg|jpg|png|gif)$/i);
+      
+      previewHtml = `
+        <div style="margin-top:10px; display:flex; align-items:center; gap:12px; background: #fff; padding: 8px; border-radius: 8px; border: 1px solid var(--line);">
+          ${isImg 
+            ? `<img src="${fullUrl}" style="width:45px; height:45px; object-fit:cover; border-radius:6px;">` 
+            : `<div style="width:45px; height:45px; display:grid; place-items:center; background:#f1f3f7; border-radius:6px; font-size:20px;">📄</div>`
+          }
+          <div style="display:flex; flex-direction:column;">
+            <a href="${fullUrl}" target="_blank" style="font-size:12px; color:var(--accent); font-weight:800; text-decoration:none;">
+              👁️ VER DOCUMENTO
+            </a>
+            <span style="font-size:10px; color:var(--muted)">Haga clic para ampliar</span>
+          </div>
+        </div>`;
+    }
+
+    fh += `
+      <div class="file-check ${ok?'':'missing'}" style="display:block; padding:12px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:18px;">${ok?'✅':'⚠️'}</span>
+          <div>
+            <strong style="font-size:13px;">${f.l}</strong><br>
+            <small>${ok ? 'Archivo listo en servidor' : 'Falta subir este archivo'}</small>
+          </div>
+        </div>
+        ${previewHtml}
+      </div>`;
+  });
+
+  h += `<div class="review-section" style="margin-top:20px;">
+          <div class="review-title">Documentación Adjunta</div>
+          <div class="review-grid">${fh}</div>
+        </div>`;
+  box.innerHTML = h;
+  }
+
+  async function loadPrefill() {
+    if (!guid) { showFatalError(); return; }
+    try {
+      showLoader("Cargando", "Obteniendo información del aspirante…");
+      //    await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log(CONFIG.API_BASE)
+      const base = CONFIG.API_BASE
+      const j = await apiFetch(`/api/public/contract?guid=${encodeURIComponent(guid)}`);
+      // Verificamos si ya terminó (Paso 7 o estatus final)
+    const currentStep = j.aspirante.current_step;
+    const isFinished = (currentStep >= 5);
+    const isWaiting = (currentStep === 4);
+
+      // --- AQUÍ GUARDAMOS LOS ADJUNTOS ACTUALES ---
+        window.currentAttachments = j.adjuntos || {};
+
+      const a = j.aspirante || j.trabajador || j.data || {};
+      $("#nombreCompleto").value = a.nombre_completo || "";
+      $("#email").value = a.email || "";
+
+    if (isFinished|| isWaiting) {
+        // 1. Ocultamos el formulario y acciones
+        if ($("header")) $("header").style.display = "none";
+        $(".footerActions").style.display = "none";
+        document.body.classList.add("full-screen-mode");
+        // Ocultamos todo lo que no sea el mensaje final
+        $("#frm").style.display = "none";
+        $("#stepper").style.display = "none";
+        $(".footerActions").style.display = "none";
+        $$(".divider").forEach(d => d.style.display = "none");
+        
+        // 2. MOSTRAR EL DIV CORRESPONDIENTE
+        if (isFinished) {
+          
+        // 2. Mostramos el cuadro de bienvenida de empleado
+        const welcomeBox = $("#employeeWelcomeBox");
+        welcomeBox.style.display = "flex";
+        // Si quieres inyectar el botón dinámicamente o añadirlo al HTML:
+        const exitBtn = document.createElement("button");
+        exitBtn.className = "btn btnGhost";
+        exitBtn.style.marginTop = "15px";
+        exitBtn.textContent = "Salir de la plataforma";
+        exitBtn.onclick = () => window.location.href = "https://www.cut.edu.mx";
+        welcomeBox.appendChild(exitBtn);
+        // 3. Forzamos a que el Stepper muestre todo en verde (completado)
+        $$(".step").forEach(x => {
+            x.classList.remove("active");
+            x.classList.add("done");
+        });
+        // 2. Disparar Confeti de Celebración
+        const duration = 4 * 1000;
+        const end = Date.now() + duration;
+        const fiestaColors = ['#b00020', '#e53935', '#2e7d32', '#ffeb3b', '#2196f3', '#9c27b0', '#ff9800'];
+        (function frame() {
+            confetti({
+                particleCount: 5,
+                angle: 60,
+                spread: 70,
+                origin: { x: 0, y: 0.6 },
+                colors: fiestaColors
+            });
+            confetti({
+                particleCount: 5,
+                angle: 120,
+                spread: 70,
+                origin: { x: 1, y: 0.6 },                
+                colors: fiestaColors
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+        } else if (isWaiting) {
+            $("#validationBox").style.display = "flex";
+        }
+
+    $(".sub").textContent = "¡Felicidades! Tu proceso ha concluido.";
+    return;
+    }
+    // Si el paso es 4 pero aún no termina (está en validación de RH)
+    if (currentStep === 4) {
+      $("#frm").style.display = "none"; // Ocultamos el form
+      $(".footerActions").style.display = "none";
+        // $("#reviewContainer").innerHTML = `
+        //     <div class="status-validation-card" style="text-align:center; padding:30px;">
+        //         <div class="spinner" style="margin: 0 auto 15px;"></div>
+        //         <h3 style="color:var(--accent)">Información en validación</h3>
+        //         <p>Tu expediente está siendo revisado por Recursos Humanos. Te notificaremos por correo.</p>
+        //     </div>
+        // `;
+        // Ponemos el paso 4 como activo y los anteriores como 'done'
+        setStep(4);
+    }
+      // NUEVO: Mapear adjuntos del servidor al objeto global
+      if (j.adjuntos && Array.isArray(j.adjuntos)) {
+          j.adjuntos.forEach(adj => {
+              // adj.nombre es el field_name (ej: file_ine_frente)
+              // adj.local_path es la ruta corta (ej: storage/uploads/...)
+              window.currentAttachments[adj.nombre] = adj.local_path;
+          });
+      }
+      if (j.draft?.payload) {
+        const p = j.draft.payload;
+        Object.keys(p).forEach(k => {
+          const el = frm.elements[k];
+          if (el && el.type !== "file") el.value = p[k];
+        });
+        setStep(Number(p.__meta?.step || 1));
+        lastSavedHash = stableHash(getDraftPayload());
+        saveState.textContent = "Guardado ✓";
+      } else {
+        lastSavedHash = stableHash(getDraftPayload());
+      }
+      // Si el usuario está en el paso 3, dibujamos los archivos
+        if (step === 3) renderFileStep();
+    } catch (e) {
+      console.error(e);
+      showFatalError();
+    } finally { hideLoader();
+          //toast(`Archivo ${fieldLabel} subido con éxito`, "ok");
+
+      document.getElementById("main-wrapper").classList.add("content-ready");
+     }
+  }
+
+
+// A. Esta función envía el archivo al servidor inmediatamente
+async function enviarArchivoAlServidor(input) {
+  if (!input.files[0]) return;
+  const fileName = input.files[0].name;
+  const fieldLabel = input.name.replace('file_', '').toUpperCase();
+  // 1. Mostrar Loader para bloquear la pantalla
+  // 1. Iniciamos el tiempo y el loader
+  const startTime = Date.now();
+  showLoader("Subiendo archivo", `Cargando ${fieldLabel}...`);
+  const fd = new FormData();
+  fd.append("guid", guid); // El GUID que ya tienes en tu JS
+  fd.append("field_name", input.name); // El nombre del campo (ej: file_ine_frente)
+  fd.append("file", input.files[0]);
+
+  saveState.textContent = "Subiendo archivo...";
+  
+  try {
+    const res = await fetch(`${API_BASE}/api/public/contract/upload-attachment`, {
+      method: "POST",
+      body: fd
+    });
+    if (res.ok) {
+      // 3. Calculamos cuánto tiempo ha pasado
+      const duration = Date.now() - startTime;
+      const minWait = 1000; // 2 segundos mínimos
+
+      // 4. Si el servidor fue más rápido que 2 seg, esperamos la diferencia
+      if (duration < minWait) {
+        await new Promise(resolve => setTimeout(resolve, minWait - duration));
+      }
+      saveState.textContent = "Archivo guardado ✓";
+      saveState.style.color = "#2e7d32";
+      input.closest('.file').style.borderColor = "#2e7d32"; // Poner borde verde
+      // Actualizamos la lista de adjuntos para que el Paso 4 lo vea
+      if (res.relative_path) {
+          window.currentAttachments[input.name] = res.relative_path;
+      }
+
+    toast(`Archivo ${fieldLabel} subido con éxito`, "ok");
+    }
+  } catch (e) {
+    toast(`Error al subir archivo ${e}`, "err");
+  }finally{// 3. Quitar Loader SIEMPRE (aunque falle o funcione)
+    hideLoader();
+  }
+  
+}
+function renderFileStep() {
+    const grid = $("#filesGrid");
+    const docs = [
+        { id: "file_ine_frente", label: "INE (frente)", req: true },
+        { id: "file_ine_vuelta", label: "INE (vuelta)", req: false },
+        { id: "file_comprobante", label: "Comprobante de domicilio", req: true },
+        { id: "file_curp", label: "CURP (archivo)", req: true },
+        { id: "file_constancia_fiscal", label: "Constancia fiscal (SAT)", req: false }
+    ];
+
+    grid.innerHTML = docs.map(doc => {
+        const serverPath = window.currentAttachments?.[doc.id];
+        const hasFile = !!serverPath;
+        const fullUrl = hasFile ? `${CONFIG.URL_BASE}/${serverPath}` : "";
+
+        return `
+        <div class="file" id="container_${doc.id}" style="border: 1px ${hasFile ? 'solid #2e7d32' : 'dashed var(--line)'}; background: ${hasFile ? 'rgba(46,125,50,0.03)' : 'var(--panel2)'}">
+            <label style="font-weight:bold; color: ${hasFile ? '#2e7d32' : 'var(--muted)'}">
+                ${doc.label} ${doc.req ? '<span style="color:red">*</span>' : ''}
+                ${hasFile ? ' <small>(Ya cargado ✅)</small>' : ''}
+            </label>
+            
+            <div id="wrapper_${doc.id}">
+                ${hasFile ? `
+                    <div class="row" style="margin-top:10px; justify-content: space-between;">
+                        <a href="${fullUrl}" target="_blank" class="small" style="color:var(--accent2); font-weight:bold;">👁️ Ver actual</a>
+                        <button type="button" class="btnGhost" style="font-size:10px; padding:4px 8px;" onclick="replaceFile('${doc.id}')">
+                            🔄 Reemplazar
+                        </button>
+                    </div>
+                ` : `
+                    <input type="file" name="${doc.id}" accept=".pdf,image/*" ${doc.req ? 'required' : ''} onchange="handleFileSelect(this)" />
+                `}
+            </div>
+        </div>
+        `;
+    }).join("");
+}
+
+// Hacerlo global para que los botones onclick funcionen
+window.replaceFile = function(id) {
+    const wrapper = document.getElementById(`wrapper_${id}`);
+    const container = document.getElementById(`container_${id}`);
+    
+    container.style.border = "1px dashed #b00020";
+    container.style.background = "rgba(176,0,32,0.02)";
+    
+    wrapper.innerHTML = `<input type="file" name="${id}" accept=".pdf,image/*" required onchange="handleFileSelect(this)" />
+                         <button type="button" onclick="renderFileStep()" class="small" style="background:none; border:none; color:gray; cursor:pointer;">❌ Cancelar</button>`;
+};
+
+window.handleFileSelect = async function(input) {
+    if(!input.files.length) return;
+    
+    const id = input.name;
+    const file = input.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("tipo", id);
+
+    showLoader("Subiendo...", "Estamos guardando tu documento");
+    
+    try {
+        const res = await fetch(`${CONFIG.API_BASE}/api/public/contract/upload?guid=${new URLSearchParams(location.search).get("guid")}`, {
+            method: 'POST',
+            body: formData
+        });
+        const data = await res.json();
+        
+        if(res.ok) {
+            window.currentAttachments[id] = data.path; // Actualizamos la ruta local
+            toast("Archivo guardado correctamente", "ok");
+            renderFileStep(); // Refrescamos la UI del paso 3
+        } else {
+            throw new Error(data.detail || "Error al subir");
+        }
+    } catch (e) {
+        toast(e.message, "err");
+    } finally {
+        hideLoader();
+    }
+};
+// B. Esta parte le dice al formulario: "Si alguien elige un archivo, súbelo"
+document.querySelector("#frm").addEventListener("change", (e) => {
+  if (e.target.type === "file") {
+    enviarArchivoAlServidor(e.target);
+  }
+});
+  setStep(1);
+  loadPrefill();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+/* Solo las reglas que NO están en app.css */
+.summary-bar {
+    display: flex; gap: 20px; background: #f8fafc;
+    padding: 15px 25px; border-radius: 10px;
+    margin-bottom: 20px; border: 1px solid var(--line);
+}
+
+.stat-item { display: flex; flex-direction: column; }
+.stat-item .label { font-size: 11px; font-weight: 700; color: var(--muted); }
+.stat-item .value { font-size: 18px; font-weight: 800; }
+
+/* Colores de las filas del pase de lista */
+tr.row-asistencia { background-color: rgba(22, 163, 74, 0.04) !important; }
+tr.row-falta { background-color: rgba(220, 38, 38, 0.04) !important; }
+tr.row-retardo { background-color: rgba(245, 158, 11, 0.04) !important; }
+tr.row-justificada { background-color: rgba(37, 99, 235, 0.04) !important; }
+
+/* Estilo de los Radio Containers que definimos antes */
+
+
+.radio-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.radio-container .checkmark:after {
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+/* Colores de fondo para las filas (TR) */
+tr.row-asistencia { background-color: rgba(22, 163, 74, 0.05); }   /* Verde tenue */
+tr.row-falta { background-color: rgba(220, 38, 38, 0.05); }        /* Rojo tenue */
+tr.row-retardo { background-color: rgba(245, 158, 11, 0.05); }     /* Naranja tenue */
+tr.row-justificada { background-color: rgba(37, 99, 235, 0.05); }  /* Azul tenue */
+
+/* Transición suave para el cambio de color */
+tr {
+    transition: background-color 0.3s ease;
+}
+/* Layout de cabecera compacta */
+.title-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-divider {
+    color: var(--line);
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.mini-summary {
+    display: flex;
+    gap: 12px;
+    font-size: 13px;
+    background: #f1f5f9;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.stat { color: var(--muted); }
+.stat b { color: var(--text); }
+.stat.asis b { color: #16a34a; }
+.stat.falt b { color: #dc2626; }
+.stat.ret b { color: #d97706; }
+.stat.just b { color: #067ed9; }
+
+/* Optimizamos el espacio de la tabla */
+.cardBd {
+    padding: 0 !important; /* Quitamos padding lateral para que la tabla use todo el ancho */
+}
+
+.table-full tbody td {
+    padding: 12px 20px; /* Padding vertical más ajustado */
+}
+/* En asistencias.css para maximizar el ancho */
+.card-main .cardBd {
+    padding: 0; /* La tabla llega hasta los bordes del card */
+}
+
+.table-full thead th:first-child, 
+.table-full tbody td:first-child {
+    padding-left: 30px; /* Un poco de aire para el nombre del alumno */
+}
+
+/* Hacer que el nombre resalte más */
+.alumno-info b {
+    font-size: 15px;
+    display: block;
+    color: var(--text);
+}

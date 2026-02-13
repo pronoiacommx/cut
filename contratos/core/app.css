@@ -1,187 +1,415 @@
-/* ===== Layout general ===== */
-.topbar{
-  max-width:var(--max);
-  margin:0 auto;
-  padding:26px 18px 0;
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:14px;
+:root {
+  --accent: #b00020;
+  --muted: #70757a;
+  --line: rgba(18,21,33,.08);
+  --side-width: 260px;
+  --side-collapsed: 60px;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --text: #3c4043;
 }
 
-.brand{display:flex; gap:12px; align-items:center;}
-.dot{
-  width:12px;height:12px;border-radius:50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  box-shadow: 0 0 0 7px rgba(176,0,32,.10);
-}
-h1{margin:0;font-size:18px;letter-spacing:.2px}
-.sub{margin:6px 0 0;color:var(--muted);font-size:13px;max-width:720px}
+body { margin: 0; font-family: 'Inter', sans-serif; background: #fff; color: var(--text); overflow: hidden; }
 
-.pill{
-  border:1px solid var(--line);
-  background: rgba(255,255,255,.75);
-  padding:8px 10px;border-radius:999px;
-  color:var(--muted);font-size:12px;
-  display:flex; gap:8px; align-items:center;
-  box-shadow: 0 6px 16px rgba(18,21,33,.06);
+/* TOPBAR ESTILO GOOGLE */
+.topbar {
+  height: 65px; background: #fff; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; border-bottom: 1px solid var(--line); position: relative; z-index: 1000;
 }
+.brand { display: flex; align-items: center; gap: 15px; }
+.btn-toggle { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted); padding: 8px; border-radius: 50%; transition: 0.2s; }
+.btn-toggle:hover { background: #f1f3f4; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
 
-.appShell{
-  max-width:var(--max);
-  margin:0 auto;
-  padding:18px;
-  display:grid;
-  grid-template-columns: 260px 1fr;
-  gap:16px;
-  align-items:start;
+/* PERFIL DERECHA */
+.user-menu-container { position: relative; }
+.user-info-top { 
+  display: flex; align-items: center; gap: 12px; padding: 5px 5px 5px 15px; 
+  border-radius: 50px; cursor: pointer; border: 1px solid transparent; position: relative;
 }
-@media (max-width: 980px){
-  .appShell{grid-template-columns:1fr}
+.user-info-top:hover { background: #f8f9fa; border-color: var(--line); }
+
+.text-right { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2; }
+.user-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.user-role { font-size: 11px; color: var(--muted); }
+.user-avatar { 
+  width: 34px; height: 34px; background: var(--accent); color: #fff; 
+  border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;
 }
 
-.side{ position:sticky; top:12px; }
-@media (max-width: 980px){ .side{position:relative; top:auto;} }
+/* Badge de estado (Puntito verde) */
+.status-indicator {
+  position: absolute; bottom: 4px; right: 4px; width: 10px; height: 10px;
+  background: #10b981; border: 2px solid #fff; border-radius: 50%;
+}
 
-.sideTop{
-  padding:14px 16px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  border-bottom:1px solid var(--line);
-  background: linear-gradient(180deg, rgba(245,246,250,1), rgba(255,255,255,1));
+/* DROPDOWN */
+.user-dropdown {
+  position: absolute; top: 110%; right: 0; width: 280px; background: #fff;
+  border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: none;
+  flex-direction: column; z-index: 1001; overflow: hidden;
 }
-.sideTitle{display:flex; flex-direction:column; gap:2px;}
-.sideTitle b{font-size:13px}
-.sideTitle span{font-size:12px;color:var(--muted)}
+.user-dropdown.active { display: flex; animation: fadeIn 0.2s ease; }
 
-.nav{
-  padding:10px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
+.dropdown-header { padding: 20px; text-align: center; border-bottom: 1px solid var(--line); }
+.user-avatar-big { width: 60px; height: 60px; background: var(--accent); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 10px; }
+.dropdown-item { width: 100%; padding: 12px; border: none; background: none; text-align: left; cursor: pointer; border-radius: 8px; }
+.dropdown-item:hover { background: #f8f9fa; }
+
+/* LAYOUT & SIDEBAR */
+.appShell { display: flex; height: calc(100vh - 65px); width: 100%; }
+.side { width: var(--side-width); border-right: 1px solid var(--line); display: flex; flex-direction: column; transition: width var(--transition); flex-shrink: 0; }
+.side.collapsed { width: var(--side-collapsed); }
+
+.nav { padding: 10px 0; display: flex; flex-direction: column; gap: 4px; }
+.navBtn { display: flex; align-items: center; padding: 12px 15px; border: none; background: transparent; cursor: pointer; width: 100%; transition: 0.2s; border-left: 4px solid transparent; }
+.navBtn.active { background: #fff5f5; border-left-color: var(--accent); }
+.navBtn:hover { background: #f8f9fa; }
+
+.ico { min-width: 32px; height: 32px; border-radius: 8px; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; background: var(--bg-ico); flex-shrink: 0; }
+.navTxt { margin-left: 12px; white-space: nowrap; display: flex; flex-direction: column; text-align: left; }
+.navTxt b { font-size: 13px; }
+.navTxt span { font-size: 11px; color: var(--muted); }
+
+.side.collapsed .navBtn { justify-content: center; padding: 12px 0; }
+.side.collapsed .navTxt, .side.collapsed .sideFooter { display: none; }
+
+.stack { flex: 1; overflow-y: auto; background: #fff; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- RESTAURACIÓN DE ESTILO: LOGO Y TEXTOS --- */
+.brand h1 {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: .2px;
+  background: linear-gradient(135deg, var(--text), #6b7280);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.navBtn{
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  padding:10px 12px;
-  border-radius:14px;
-  border:1px solid rgba(18,21,33,.12);
-  background: rgba(255,255,255,.80);
-  cursor:pointer;
-  transition:.12s transform,.12s background,.12s border-color,.12s box-shadow;
-  box-shadow: 0 10px 18px rgba(18,21,33,.05);
+
+.brand .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2, #ff5252));
+  box-shadow: 0 0 0 5px rgba(176, 0, 32, 0.1);
 }
-.navBtn:hover{
+
+/* --- RESTAURACIÓN: BOTONES --- */
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 12px rgba(176, 0, 32, 0.25);
   transform: translateY(-1px);
-  background: rgba(245,246,250,1);
-  border-color: rgba(18,21,33,.18);
-}
-.navBtn.active{
-  border-color: rgba(176,0,32,.35);
-  box-shadow: 0 12px 22px rgba(176,0,32,.12);
 }
 
-.navLeft{display:flex;align-items:center;gap:10px}
-.ico{
-  width:30px;height:30px;border-radius:12px;
-  display:grid;place-items:center;
-  font-weight:900;
-  color:#fff;
-  background: linear-gradient(135deg, rgba(176,0,32,.92), rgba(229,57,53,.88));
-  box-shadow: 0 10px 18px rgba(176,0,32,.14);
-  user-select:none;
-}
-.navTxt{display:flex;flex-direction:column;gap:2px}
-.navTxt b{font-size:13px}
-.navTxt span{font-size:12px;color:var(--muted)}
-.chev{color:rgba(18,21,33,.35); font-weight:900}
+.btn-primary:active { transform: translateY(0); }
 
-.file{
-  border:1px dashed rgba(18,21,33,.22);
-  background: rgba(245,246,250,1);
-  border-radius:12px;
-  padding:10px 12px;
-}
-.footerActions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-
-/* Toast global */
-.toast{
-  border:1px solid var(--line);
-  background: rgba(255,255,255,.88);
-  border-radius:12px;
-  padding:10px 12px;
-  font-size:12px;
-  color:var(--muted);
-  display:none;
-  box-shadow: 0 10px 22px rgba(18,21,33,.10);
-}
-.toast.show{display:block}
-
-.globalToast{
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  width: min(420px, calc(100vw - 32px));
-  z-index: 10000;
+/* --- RESTAURACIÓN: STATUS SIDEBAR --- */
+.sideFooter {
+  margin-top: auto;
+  padding: 20px 15px;
+  border-top: 1px solid var(--line);
+  background: #fafafa;
 }
 
-/* Loader */
-.loader{
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-  background: rgba(18,21,33,.22);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+.badge-status {
+  font-size: 10px;
+  font-weight: 800;
+  color: #10b981;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
 }
-.loader.hidden{ display:none; }
-.loaderBox{
-  width:min(420px, calc(100vw - 44px));
-  border-radius:18px;
-  padding:22px 22px 18px;
-  background: rgba(255,255,255,.88);
-  border: 1px solid rgba(18,21,33,.12);
-  box-shadow: 0 20px 50px rgba(18,21,33,.22);
-  text-align:center;
+
+.badge-status::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse-green 2s infinite;
 }
-.spinner{
-  width:44px;
-  height:44px;
-  border-radius:999px;
-  border: 4px solid rgba(18,21,33,.18);
-  border-top-color: rgba(176,0,32,.95);
-  margin: 2px auto 12px;
-  animation: spin 1s linear infinite;
+
+@keyframes pulse-green {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
-@keyframes spin{ to { transform: rotate(360deg); } }
-#loaderTitle{font-weight:900;letter-spacing:.2px;margin-bottom:4px;}
-#loaderMsg{font-size:12px;color: var(--muted);margin-bottom: 10px;}
-.progressWrap{
-  width:100%;
-  height:10px;
-  border-radius:999px;
-  background: rgba(18,21,33,.08);
-  overflow:hidden;
-  border:1px solid rgba(18,21,33,.08);
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 15px 25px;
+    /* background: #323232; */
+    color: white;
+    border-radius: 8px;
+    /* box-shadow: 0 5px 15px rgba(0,0,0,0.3); */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 10001; /* Por encima del modal de vista previa */
+    transform: translateY(0);
+    transition: all 0.3s ease;
+    font-weight: 500;
 }
-.progressBar{
-  height:100%;
-  width:0%;
-  border-radius:999px;
-  background: linear-gradient(90deg, rgba(176,0,32,.92), rgba(229,57,53,.88));
-  transition: width .25s ease;
+
+.toast.hidden {
+    display: none;
+    transform: translateY(20px) scale(0.9);
+    opacity: 0;
 }
-.progressText{
-  margin-top:10px;
-  font-size:12px;
-  color: rgba(95,102,122,.90);
-  font-weight:700;
+.toast-hidden {
+    opacity: 0;
+}
+.toast-ok { background: #2e7d32; border-left: 5px solid #1b5e20; }
+.toast-error { background: #d32f2f; border-left: 5px solid #b71c1c; }
+@keyframes highlight {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+}
+
+.badge-status-active {
+    animation: highlight 0.5s ease-in-out;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+/* --- Estilos del Loader Global --- */
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex; /* Siempre flex para centrar */
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    
+    /* FONO DIFUMINADO: En lugar de gris sólido, usamos un blanco/oscuro traslúcido */
+    background: rgba(255, 255, 255, 0.4); 
+    backdrop-filter: blur(8px); /* AQUÍ ocurre la magia del difuminado */
+    -webkit-backdrop-filter: blur(8px); /* Soporte para Safari */
+    
+    /* TRANSICIÓN */
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                visibility 0.4s;
+    
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Estado oculto pero animable */
+.loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Evita que bloquee clics mientras es invisible */
+}
+
+/* Caja de contenido con leve escala */
+.loaderBox {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    transform: scale(1);
+    transition: transform 0.4s ease;
+}
+
+.loader.hidden .loaderBox {
+    transform: scale(0.9); /* Efecto de que se encoge al desaparecer */
+}
+  .spinner{
+    width:44px;height:44px;border-radius:999px;
+    border: 4px solid rgba(18,21,33,.18);
+    border-top-color: rgba(176,0,32,.95);
+    margin: 2px auto 12px;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin{ to { transform: rotate(360deg); } }
+  .status-validation-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 40px;
+    box-shadow: var(--shadow);
+}
+#reviewContainer .spinner {
+    margin: 0 auto 20px;
+    border-top-color: var(--accent);
+}
+/* Reset total para el centrado */
+body.full-screen-mode {
+    /* display: flex !important; */
+    align-items: center !important;
+    justify-content: center !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden; /* Evita scrolls innecesarios */
+}
+
+/* Forzar que el envoltorio no limite el centrado */
+body.full-screen-mode .wrap {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    display: flex;
+    justify-content: center;
+}
+
+/* La tarjeta o el box debe ser lo único con ancho limitado */
+body.full-screen-mode .success-box {
+    margin: 0 auto !important; /* Asegura el centrado horizontal */
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Ocultamos la tarjeta original (bordes/sombras) para que solo luzca el box */
+body.full-screen-mode .card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+/* Ocultamos el envoltorio principal inicialmente para evitar el parpadeo */
+#main-wrapper {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Esta clase la pondremos por JS al terminar la carga */
+.content-ready {
+    opacity: 1 !important;
+}
+/* --- Capas Base (Overlay) --- */
+.loader, .error-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000; /* Por encima de cualquier sidebar o modal */
+    background: rgba(15, 23, 42, 0.7); /* Azul oscuro traslúcido */
+    backdrop-filter: blur(5px); /* Efecto de desenfoque moderno */
+    transition: opacity 0.3s ease;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- Tarjeta de Error --- */
+.error-card {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s ease-out;
+}
+
+.error-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.error-title {
+    color: #b00020; /* Color guinda institucional */
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.error-text {
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* --- Loader Box --- */
+.loaderBox {
+    background: white;
+    padding: 30px 50px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #b00020;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* Reutilizamos el efecto de desenfoque pero con un tinte verdoso muy leve */
+#validationBox.error-screen {
+    background: rgba(232, 245, 233, 0.6); /* Tinte verde muy suave */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Animación sutil para que el spinner no sea agresivo */
+#validationBox .spinner {
+    margin: 0 auto 20px;
+    border-color: #e8f5e9;
+    border-top-color: #2e7d32;
+}
+/* Clase para ocultar componentes de la interfaz */
+.is-login .topbar, 
+.is-login .side {
+    display: none !important;
+}
+/* Ajuste del main para que ocupe todo el espacio en login */
+.is-login .appShell {
+    grid-template-columns: 1fr !important;
+}
+
+/* Fondo con el logo de la escuela */
+.login-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: url('../assets/img/escuela2.jpg') no-repeat center center;
+    background-size: contain; /* O 'cover' según prefieras */
+    filter: blur(8px); /* El efecto de desenfoque */
+    opacity: 0.15;    /* Para que no distraiga del formulario */
 }

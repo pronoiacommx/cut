@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page { size: letter; margin: 2cm; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; color: #333; line-height: 1.6; }
+        .header { text-align: center; border-bottom: 2px solid #003366; padding-bottom: 10px; margin-bottom: 30px; }
+        .logo { width: 80px; filter: grayscale(1); opacity: 0.8; }
+        .school-name { font-size: 22px; font-weight: bold; color: #003366; text-transform: uppercase; }
+        .constancia-title { text-align: center; font-size: 18px; font-weight: bold; margin: 40px 0; text-decoration: underline; }
+        .content { text-align: justify; font-size: 14px; margin-bottom: 50px; }
+        .data-field { font-weight: bold; }
+        .footer { margin-top: 100px; text-align: center; }
+        .signature-line { border-top: 1px solid #000; width: 250px; margin: 0 auto; padding-top: 5px; }
+        .seal { float: right; border: 2px solid #ddd; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #ccc; }
+        
+        /* Ajustes específicos según tipo */
+        .visa-only { display: {{ 'block' if tipo == 'visa' else 'none' }}; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="school-name">Centro Universitario de Tecnología (CUT)</div>
+        <div>Departamento de Control Escolar</div>
+    </div>
+
+    <div class="constancia-title">A QUIEN CORRESPONDA:</div>
+
+    <div class="content">
+        El que suscribe, Director de Control Escolar de esta institución, hace constar que el C. 
+        <span class="data-field">{{ nombre_alumno }}</span>, con matrícula <span class="data-field">{{ matricula }}</span>, 
+        se encuentra debidamente inscrito en la carrera de <span class="data-field">{{ carrera }}</span>, 
+        cursando actualmente el <span class="data-field">{{ semestre }}</span> semestre.
+
+        <p class="visa-only">
+            Se extiende la presente para los fines de trámite de visado y pasaporte ante las autoridades consulares correspondientes.
+        </p>
+
+        {% if tipo == 'medica' %}
+        <p>Por medio de la presente se certifica que el alumno goza de buena salud física según consta en los registros de nuestro departamento de enfermería.</p>
+        {% endif %}
+
+        <p>Se extiende la presente a petición del interesado para los fines legales que al mismo convengan, en la ciudad de México, el día {{ fecha_hoy }}.</p>
+    </div>
+
+    <div class="footer">
+        <div class="seal">SELLO INSTITUCIONAL</div>
+        <br><br><br>
+        <div class="signature-line">
+            DIRECCIÓN DE CONTROL ESCOLAR<br>
+            <strong>CUT • SISTEMA</strong>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<div class="view" data-module="catalogos">
+  <div class="card">
+    <div class="cardHd">
+      <h2>Catálogos</h2>
+      <div class="row">
+        <input id="catSearch" placeholder="Buscar…" style="min-width:240px" />
+        <button class="btn" id="btnCatSearch" type="button">Buscar</button>
+        <button class="btn" id="btnCatNew" type="button">Nuevo</button>
+      </div>
+    </div>
+
+    <div class="cardBd stack">
+      <div class="row" style="justify-content:space-between">
+        <div class="row">
+          <button class="btn btnGhost catTab active" data-cat="carreras" type="button">Carreras</button>
+          <button class="btn btnGhost catTab" data-cat="materias" type="button">Materias</button>
+          <button class="btn btnGhost catTab" data-cat="categorias" type="button">Categorías</button>
+        </div>
+        <span class="badge" id="catBadge">carreras</span>
+      </div>
+
+      <div class="tblWrap">
+        <table style="min-width:760px">
+          <thead>
+            <tr>
+              <th style="width:80px">ID</th>
+              <th>Nombre</th>
+              <th style="width:220px">Estatus</th>
+              <th style="width:220px">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="catBody">
+            <tr><td colspan="4" class="small">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="row" style="justify-content:space-between; margin-top:8px;">
+        <div class="small" id="catInfo">—</div>
+        <div class="row">
+          <button class="btn btnGhost" id="catPrev" type="button">←</button>
+          <span class="badge" id="catPage">1</span>
+          <button class="btn btnGhost" id="catNext" type="button">→</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal del módulo (encapsulado aquí) -->
+  <div id="catModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Catálogo">
+    <div class="modalBox">
+      <div class="modalHd">
+        <b id="catModalTitle">Nuevo</b>
+        <button class="btn btnGhost" id="catModalClose" type="button">Cerrar</button>
+      </div>
+
+      <div class="grid">
+        <div style="grid-column:1/-1">
+          <label>Nombre</label>
+          <input id="catName" placeholder="Ej. Licenciatura en Derecho" />
+        </div>
+
+        <div>
+          <label>Estatus</label>
+          <select id="catActive">
+            <option value="1">Activo</option>
+            <option value="0">Inactivo</option>
+          </select>
+        </div>
+
+        <div>
+          <label>ID (solo lectura)</label>
+          <input id="catId" disabled placeholder="(nuevo)" />
+        </div>
+      </div>
+
+      <div class="modalActions">
+        <button class="btn btnGhost" id="catDelete" type="button" style="display:none">Inactivar</button>
+        <button class="btn btnPrimary" id="catSave" type="button">Guardar</button>
+      </div>
+
+      <div id="toastCatModal" class="toast"></div>
+    </div>
+  </div>
+</div>

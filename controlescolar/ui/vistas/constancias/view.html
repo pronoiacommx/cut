@@ -1,0 +1,95 @@
+<div class="view-animate-fade">
+  <div class="card" style="margin-bottom: 20px;">
+    <div class="cardHd" style="display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <h2>Control de Constancias</h2>
+        <div style="font-size: 12px; color: var(--muted);">Emisión de documentos oficiales y seguimiento de solicitudes</div>
+      </div>
+      <button class="btn-primary" onclick="abrirModalNuevaSolicitud()" style="padding: 10px 20px;">
+        <span>📄+</span> Nueva Solicitud
+      </button>
+    </div>
+  </div>
+
+  <div class="expedientes-controls">
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 15px;">
+      <div class="field">
+        <input type="text" id="busquedaConstancias" placeholder="Buscar por matrícula o nombre..." onkeyup="filtrarConstancias()">
+      </div>
+      <div class="field">
+        <select id="filtroTipo" onchange="window.filtrarConstancias()">
+          <option value="">Todos los tipos</option>
+          <option value="Estudio">Constancia de Estudio</option>
+          <option value="Visa">Constancia de Visa</option>
+          <option value="Medica">Constancia Médica</option>
+        </select>
+      </div>
+      <div class="field">
+        <select id="filtroPago" onchange="window.filtrarConstancias()">
+          <option value="">Estatus Pago</option>
+          <option value="Pagado">Pagado</option>
+          <option value="Pendiente">Pendiente</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="cardBd" style="padding: 0;">
+      <table id="tablaConstancias">
+        <thead>
+          <tr>
+            <th>Folio</th>
+            <th>Alumno / Matrícula</th>
+            <th>Tipo de Documento</th>
+            <th>Fecha Solicitud</th>
+            <th>Vigencia</th>
+            <th>Estatus Pago</th>
+            <th style="text-align: center;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="contenedorConstancias">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+    <span id="pagerInfo">Mostrando solicitudes recientes</span>
+    <div style="display: flex; gap: 5px;">
+      <button class="btn-small">Anterior</button>
+      <span id="pageBadge">1</span>
+      <button class="btn-small">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Ajustes extra para asegurar consistencia */
+  .view-animate-fade {
+    animation: fadeIn 0.4s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .btn-small {
+    background: white;
+    border: 1px solid var(--line);
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  /* Badge para estatus pendiente */
+  .badge-warning {
+    color: #f57c00;
+    background: #fff3e0;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: bold;
+  }
+</style>
